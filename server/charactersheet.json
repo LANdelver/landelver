@@ -1,7 +1,7 @@
 {
-    "char_name":{},
-    "race":{},
-    "class":{},
+    "char_name":"",
+    "race":"",
+    "class":"",
     "level": 0,
     "ability_scores": {
         "strength": 0,
