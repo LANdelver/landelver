@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'quentin';
+  src: url('res/quentin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'draconis';
+  src: url('res/draconis.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+
+.main {
+  width: 100%;
+  text-align: center;
+  background-color: #C73032;
+}
+
+.loading-title {
+  font-family: 'quentin';
+  font-size: 12rem;
+  color: white;
+  min-width: 220px;
+  margin: 0 auto;
+}
+
+.loading-messages {
+  font-family: 'draconis';
+  font-size: 5rem;
+  color: white;
+}
