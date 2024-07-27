@@ -30,5 +30,7 @@ LANdelver is still very early in development and is not open to contributions fr
 This game sources are licensed under an unmodified GPL v3.0 license. Check [LICENSE](LICENSE) for further details.
 
 LANdelver is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. (c)Wizards of the Coast LLC.
+
 *Copyright (c) 2024 Sariah Echols*
+
 *Copyright (c) 2024 Lance Borden*
