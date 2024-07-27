@@ -1,26 +1,26 @@
 function connectWebSocket() {
   return {
     messages: [
-      "Rolling initiative...",
-      "Generating dungeons...",
-      "Brewing potions...",
-      "Seducing the dragon...",
-      "Casting fireballs...",
-      "Entering rage...",
-      "Perceiving... nothing?",
-      "Disarming traps...",
-      "Meeting in tavern...",
-      "Standing night watch...",
-      "Viciously mocking...",
-      "Picking pockets...",
-      "Speaking with animals...",
-      "Looting bodies...",
-      "Attuning magic items...",
-      "Reading spell scrolls...",
-      "Looting the bodies..."
+      "rolling initiative...",
+      "generating dungeons...",
+      "brewing potions...",
+      "seducing the dragon...",
+      "casting fireballs...",
+      "entering rage...",
+      "perceiving... nothing?",
+      "disarming traps...",
+      "meeting in tavern...",
+      "standing night watch...",
+      "viciously mocking...",
+      "picking pockets...",
+      "speaking with animals...",
+      "looting bodies...",
+      "attuning magic items...",
+      "reading spell scrolls...",
+      "looting the bodies..."
     ],
     currentMessageIndex: 0,
-    currentMessage: "Rolling initiative...",
+    currentMessage: "rolling initiative...",
     hasConnected: false,
     startLoad() {
       setInterval(() => {
@@ -31,6 +31,7 @@ function connectWebSocket() {
     connect() {
       const socket = new WebSocket(`ws://${window.location.hostname}:8765`);
       console.log("socket created");
+      
       socket.onopen = () => {
         console.log("connection established");
         this.hasConnected = true;
@@ -59,6 +60,3 @@ function connectWebSocket() {
   }
 }
 
-function reconnectWebSocket() {
-
-}

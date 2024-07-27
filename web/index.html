@@ -4,16 +4,20 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="js/app.js"></script>
   <title>LANdelver</title>
+  <link rel="icon" type="image/x-icon" href="css/res/favicon.ico"> 
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body class="main">
   <div class="loading-title">
       <p>&LANdelver</p>
   </div>
-  <div x-data="connectWebSocket()" x-init="connect()">
+  <div x-data="connectWebSocket()" x-init="connect(); startLoad()">
     <template x-if="!hasConnected">
-      <div class="loading-messages" x-init="startLoad()">
-        <p x-text="currentMessage"></p>
+      <div class="spinner-container">
+        <img src="css/res/spinner.png" alt="loading spinner" class="spinner">
+        <div class="loading-messages">
+          <p x-text="currentMessage"></p>
+        </div>
       </div>
     </template>  
   </div>
