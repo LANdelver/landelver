@@ -25,11 +25,14 @@ along with this program.
 typedef struct {
   Image image;
   Vector2 position;
+  const char *label;
   bool is_player;
 } token_t;
 
-token_t new_token(const char *filename, bool is_player);
+token_t new_player_token(const char *filename, const char *label);
+token_t new_enemy_token(const char *filename);
 void update_token(token_t *token, Camera2D camera);
 void draw_token(token_t *token);
+void remove_token(token_t *token);
 
 #endif // TOKEN_H

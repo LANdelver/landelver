@@ -39,7 +39,8 @@ int main() {
   Camera2D camera = {0};
   camera.zoom = 1.0f;
 
-  token_t demo_token = new_token("resources/player_border.png", true);
+  token_t demo_token =
+      new_player_token("resources/player_border.png", "demo_token");
 
   SetTargetFPS(60); // Set our game to run at 60 frames-per-second
   //--------------------------------------------------------------------------------------
@@ -91,9 +92,9 @@ int main() {
     // Draw the 3d grid, rotated 90 degrees and centered around 0,0
     // just so we have something in the XY plane
     rlPushMatrix();
-    rlTranslatef(0, 256 * 25, 0);
+    rlTranslatef(0, 128 * 25, 0);
     rlRotatef(90, 1, 0, 0);
-    DrawGrid(100, 256);
+    DrawGrid(100, 128);
     rlPopMatrix();
 
     draw_token(&demo_token);

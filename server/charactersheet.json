@@ -1,7 +1,7 @@
 {
-    "char_name":"",
-    "race":"",
-    "class":"",
+    "char_name": "",
+    "race": "",
+    "class": "",
     "level": 0,
     "ability_scores": {
         "strength": 0,
@@ -11,7 +11,7 @@
         "wisdom": 0,
         "charisma": 0
     },
-    "saving_throws":{
+    "saving_throws": {
         "strength": 0,
         "dexterity": 0,
         "constitution": 0,
@@ -19,35 +19,21 @@
         "wisdom": 0,
         "charisma": 0
     },
-    "stats":{
+    "stats": {
         "proficiency": 0,
         "initiative": 0,
         "walk_speed": 0,
         "armor_class": 0,
         "hit_points": 0,
         "temp_hit_points": 0,
-        "conditions": {}
+        "conditions": []
     },
-    "armor":{
-
+    "weapons": [],
+    "actions": {
+        "main_actions": {},
+        "bonus_actions": {},
+        "reactions": {}
     },
-    "weapons":{
-
-    },
-    "actions":{
-        "main_actions":{},
-        "bonus_actions":{},
-        "reactions":{}
-    },
-    "spells":{
-        
-    },
-    "inventory":{
-
-    },
-    "features":{
-        "proficiencies":{}
-
-    }
-
+    "spells": [],
+    "proficiencies": []
 }

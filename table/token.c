@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2024 Lance Borden
+Copyright (C) 2024 Lance Borden, Sariah Echols
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -21,13 +21,25 @@ along with this program.
 #include "raylib.h"
 #include "stdio.h"
 
-token_t new_token(const char *filename, bool is_player) {
+#define TOKEN_SIZE 128
+
+static token_t new_token(const char *filename, const char *label,
+                         bool is_player) {
   token_t token;
   token.image = LoadImage(filename);
   token.position.x = 0;
   token.position.y = 0;
+  token.label = label;
   token.is_player = is_player;
   return token;
+}
+
+token_t new_player_token(const char *filename, const char *label) {
+  return new_token(filename, label, true);
+}
+
+token_t new_enemy_token(const char *filename) {
+  return new_token(filename, "", false);
 }
 
 void update_token(token_t *token, Camera2D camera) {
@@ -37,9 +49,9 @@ void update_token(token_t *token, Camera2D camera) {
   Vector2 mouse_pos = GetScreenToWorld2D(GetMousePosition(), camera);
   if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
     if (mouse_pos.x >= token->position.x &&
-        mouse_pos.x <= token->position.x + 256 &&
+        mouse_pos.x <= token->position.x + TOKEN_SIZE &&
         mouse_pos.y >= token->position.y &&
-        mouse_pos.y <= token->position.y + 256) {
+        mouse_pos.y <= token->position.y + TOKEN_SIZE) {
       is_dragging = true;
       offset = (Vector2){mouse_pos.x - token->position.x,
                          mouse_pos.y - token->position.y};
@@ -55,8 +67,10 @@ void update_token(token_t *token, Camera2D camera) {
     token->position.y = mouse_pos.y - offset.y;
 
     // Snap to grid
-    token->position.x = (float)((int)(token->position.x / 256) * 256);
-    token->position.y = (float)((int)(token->position.y / 256) * 256);
+    token->position.x =
+        (float)((int)(token->position.x / TOKEN_SIZE) * TOKEN_SIZE);
+    token->position.y =
+        (float)((int)(token->position.y / TOKEN_SIZE) * TOKEN_SIZE);
   }
 
   // Debug logs
@@ -70,4 +84,10 @@ void update_token(token_t *token, Camera2D camera) {
 void draw_token(token_t *token) {
   Texture2D token_tex = LoadTextureFromImage(token->image);
   DrawTextureV(token_tex, token->position, WHITE);
+
+  const int label_width = MeasureText(token->label, 20);
+  DrawText(token->label, token->position.x + (TOKEN_SIZE - label_width) / 2.0f,
+           token->position.y + TOKEN_SIZE + 10, 20, DARKGRAY);
 }
+
+void remove_token(token_t *token) { UnloadImage(token->image); }
