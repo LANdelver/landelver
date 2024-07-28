@@ -7,8 +7,12 @@
   <link rel="icon" type="image/x-icon" href="css/res/favicon.ico"> 
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 </head>
-<body class="main">
+
+<!-- the body background will change based on if we have connected yet -->
+<body x-data x-bind:class="$store.socket.hasConnected ? 'connected-body' : 'loading-body'">  
+  <!-- Loading page content -->
   <div x-data="loadingPage" x-show="!$store.socket.hasConnected" x-transition>
     <div class="loading-title">
       <p>&LANdelver</p>
@@ -21,19 +25,47 @@
     </div>
   </div>
 
-  <div x-data x-show="$store.socket.hasConnected" x-transition>
+  <!-- User space content -->
+  <div x-data='user' x-show="$store.socket.hasConnected" x-transition>
     <div class="w3-bar topbar">
       <p>LANdelver</p>
     </div>
-    <div>
-    <button>player</button>
+    
+    <!-- Sariah here is the menu entry point you can work on -->
+    <div x-show="!hasSelected" x-transition>
+      <div>
+        <button class="w3-margin" x-on:click="choosePlayer()">player</button>
+      </div>
       
+      <div>
+        <button class="w3-margin" x-on:click="chooseDm()">dungeon master</button>
+      </div>
     </div>
-    <div>
-    <button>dungeon master</button>
-      
+
+    <div x-show="hasSelected && isPlayer">
+      <!-- There needs to be some kind of menu for choose vs new character here -->
+      <!-- for now im just adding the creation form so that I can look into forming the json-->
+      <!-- What I would do is make some kind of conditional in an alpine data object and-->
+      <!-- only show the creation form if the button has been clicked, you can see how I did it above :)-->
+      <div class="input-group w3-margin-top">
+        <input required="" type="text" name="text" autocomplete="off" class="input">
+        <label class="user-label">Character Name</label>
+      </div>
+      <div class="input-group w3-margin-top">
+        <select class="select" name="race" id="race">
+         <option value="" disabled selected>Race</option> 
+          <option value="dwarf">Dwarf</option>
+          <option value="elf">Elf</option>
+          <option value="halfling">Halfling</option>
+          <option value="human">Human</option>
+          <option value="dragonborn">Dragonborn</option>
+          <option value="gnome">Gnome</option>
+          <option value="half-elf">Half-Elf</option> 
+          <option value="half-orc">Half-Orc</option> 
+          <option value="tiefling">Tiefling</option> 
+        </select>
+      </div>
     </div>
   </div>
-
 </body>
 </html>
