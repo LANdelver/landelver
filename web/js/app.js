@@ -68,6 +68,18 @@ document.addEventListener('alpine:init', () => {
       this.startLoad();
     } 
   }));
-
+  
+  Alpine.data('user', () => ({
+    hasSelected: false,
+    isPlayer: false,
+    choosePlayer() {
+      this.hasSelected = true;
+      this.isPlayer = true;
+    },
+    chooseDm() {
+      this.hasSelected = true;
+      this.isPlayer = false;
+    }
+  }));
 });
 
