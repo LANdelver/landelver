@@ -25,6 +25,12 @@
   background-color: #C73032;
 }
 
+.connected {
+  width: 100%;
+  text-align: center;
+  background-color: #dbc6c7;
+}
+
 .loading-title {
   font-family: 'quentin';
   font-size: 12rem;

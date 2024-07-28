@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(landevler)
+project(landelver)
 
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
