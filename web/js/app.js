@@ -1,5 +1,5 @@
-function connectWebSocket() {
-  return {
+document.addEventListener('alpine:init', () => {
+  Alpine.data('connectWebSocket', () => ({
     messages: [
       "rolling initiative...",
       "generating dungeons...",
@@ -56,7 +56,11 @@ function connectWebSocket() {
       setTimeout(() => {
         this.connect();
       }, 5000); 
+    },
+    init() {
+      this.connect();
+      this.startLoad();
     }
-  }
-}
+  }));
+});
 
