@@ -5,7 +5,7 @@ LANdelver is a virtual tabletop application that hopes to bring the best parts o
 ### CMake
 
 - Extract the zip of this project
-- Type the follow command:
+- Type the following command:
 
 ```sh
 cmake -S . -B build
@@ -20,6 +20,18 @@ cmake --build build
 ```
 
 - Inside the build folder are another folder (named the same as the project name on CMakeLists.txt) with the executable and resources folder.
+
+### Server
+
+- Go to web folder directory
+- Run the script to find your local IP address
+- Type the following command for one-time setup: 
+
+```
+python -m http.server 8000 --bind <lan ip>
+```
+
+- Now go to server directory and run server.py
 
 ### Contributing
 
