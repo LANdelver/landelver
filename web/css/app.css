@@ -19,16 +19,41 @@
   }
 }
 
+button {
+  --accent: #992E2E;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: 1.1em;
+  background-color: #212121;
+  cursor: pointer;
+  color: white;
+  padding: 1em 2em;
+  transition: background-color ease-in-out 0.1s,
+    letter-spacing ease-in-out 0.1s, transform ease-in-out 0.1s;
+}
+
+button:active {
+  box-shadow: var(--hover-shadows), var(--accent) 0px 0px 30px 5px;
+  background-color: var(--accent);
+  transform: scale(0.95);
+}
+
 .main {
   width: 100%;
   text-align: center;
   background-color: #C73032;
 }
 
-.connected {
-  width: 100%;
-  text-align: center;
-  background-color: #dbc6c7;
+.topbar {
+  background-color: #992E2E;
+  color: white;
+  font-family: 'draconis';
+  font-size: 3rem;
+  margin: 0;
+  padding: 0;
+  line-height: 1rem;
+  box-sizing: border-box;
 }
 
 .loading-title {
@@ -37,6 +62,10 @@
   color: white;
   min-width: 220px;
   margin: 0 auto;
+  padding: 0;
+  line-height: 1rem;
+  box-sizing: border-box;
+
 }
 
 .loading-messages {
