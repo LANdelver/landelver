@@ -1,33 +1,6 @@
 document.addEventListener('alpine:init', () => {
-  Alpine.data('connectWebSocket', () => ({
-    messages: [
-      "rolling initiative...",
-      "generating dungeons...",
-      "brewing potions...",
-      "seducing the dragon...",
-      "casting fireballs...",
-      "entering rage...",
-      "perceiving... nothing?",
-      "disarming traps...",
-      "meeting in tavern...",
-      "standing night watch...",
-      "viciously mocking...",
-      "picking pockets...",
-      "speaking with animals...",
-      "looting bodies...",
-      "attuning magic items...",
-      "reading spell scrolls...",
-      "looting the bodies..."
-    ],
-    currentMessageIndex: 0,
-    currentMessage: "rolling initiative...",
+  Alpine.store('socket', {
     hasConnected: false,
-    startLoad() {
-      setInterval(() => {
-        this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
-        this.currentMessage = this.messages[this.currentMessageIndex];
-      }, 2000);
-    },
     connect() {
       const socket = new WebSocket(`ws://${window.location.hostname}:8765`);
       console.log("socket created");
@@ -58,9 +31,43 @@ document.addEventListener('alpine:init', () => {
       }, 5000); 
     },
     init() {
+      console.log('store init');
       this.connect();
-      this.startLoad();
     }
+  });
+
+  Alpine.data('loadingPage', () => ({
+    messages: [
+      "rolling initiative...",
+      "generating dungeons...",
+      "brewing potions...",
+      "seducing the dragon...",
+      "casting fireballs...",
+      "entering rage...",
+      "perceiving... nothing?",
+      "disarming traps...",
+      "meeting in tavern...",
+      "standing night watch...",
+      "viciously mocking...",
+      "picking pockets...",
+      "speaking with animals...",
+      "looting bodies...",
+      "attuning magic items...",
+      "reading spell scrolls...",
+      "looting the bodies..."
+    ],
+    currentMessageIndex: 0,
+    currentMessage: "rolling initiative...",
+    startLoad() {
+      setInterval(() => {
+        this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
+        this.currentMessage = this.messages[this.currentMessageIndex];
+      }, 2000);
+    },
+    init() {
+      this.startLoad();
+    } 
   }));
+
 });
 

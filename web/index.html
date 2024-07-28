@@ -6,18 +6,34 @@
   <title>LANdelver</title>
   <link rel="icon" type="image/x-icon" href="css/res/favicon.ico"> 
   <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 </head>
 <body class="main">
-  <div class="loading-title">
+  <div x-data="loadingPage" x-show="!$store.socket.hasConnected" x-transition>
+    <div class="loading-title">
       <p>&LANdelver</p>
-  </div>
-  <div x-data="connectWebSocket">
-    <div x-show="!hasConnected" class="spinner-container" x-transition>
+    </div>
+    <div class="spinner-container">
       <img src="css/res/spinner.png" alt="loading spinner" class="spinner">
       <div class="loading-messages">
         <p x-text="currentMessage"></p>
       </div>
     </div>
   </div>
+
+  <div x-data x-show="$store.socket.hasConnected" x-transition>
+    <div class="w3-bar topbar">
+      <p>LANdelver</p>
+    </div>
+    <div>
+    <button>player</button>
+      
+    </div>
+    <div>
+    <button>dungeon master</button>
+      
+    </div>
+  </div>
+
 </body>
 </html>
