@@ -26,7 +26,9 @@ along with this program.
 static token_t new_token(const char *filename, const char *label,
                          bool is_player) {
   token_t token;
-  token.image = LoadImage(filename);
+  Image token_image = LoadImage(filename);
+  token.image = LoadTextureFromImage(token_image);
+  UnloadImage(token_image);
   token.position.x = 0;
   token.position.y = 0;
   token.label = label;
@@ -82,12 +84,11 @@ void update_token(token_t *token, Camera2D camera) {
 }
 
 void draw_token(token_t *token) {
-  Texture2D token_tex = LoadTextureFromImage(token->image);
-  DrawTextureV(token_tex, token->position, WHITE);
+  DrawTextureV(token->image, token->position, WHITE);
 
   const int label_width = MeasureText(token->label, 20);
   DrawText(token->label, token->position.x + (TOKEN_SIZE - label_width) / 2.0f,
            token->position.y + TOKEN_SIZE + 10, 20, DARKGRAY);
 }
 
-void remove_token(token_t *token) { UnloadImage(token->image); }
+void remove_token(token_t *token) { UnloadTexture(token->image); }

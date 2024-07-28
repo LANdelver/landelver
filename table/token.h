@@ -23,7 +23,7 @@ along with this program.
 #define TOKEN_H
 
 typedef struct {
-  Image image;
+  Texture2D image;
   Vector2 position;
   const char *label;
   bool is_player;
