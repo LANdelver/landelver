@@ -42,6 +42,14 @@
       </div>
     </div>
 
+    <!-- DM options-->
+    <div x-show="hasSelected && !isPlayer">
+        <select class="select" name="campaignSelect" id="campaignSelect">
+        <option value="" disabled selected>Choose Campaign</option> 
+        </select>
+    </div>
+
+    <!-- Player Options -->
     <div x-show="hasSelected && isPlayer">
       <div x-data="newchar">
         <button x-show="!hasSelected" class="w3-margin" x-on:click="chooseNew()">New Character</button>
@@ -58,6 +66,7 @@
             <input required="" type="text" name="text" autocomplete="off" class="input">
             <label class="user-label">Character Name</label>
           </div>
+          <!--Race-->
           <div class="input-group w3-margin-top">
             <select class="select" name="race" id="race">
             <option value="" disabled selected>Race</option> 
@@ -72,8 +81,240 @@
               <option value="tiefling">Tiefling</option> 
             </select>
           </div>
-        </div>
+          <!--Class-->
+          <div class="input-group w3-margin-top">
+            <select class="select" name="class" id="class">
+            <option value="" disabled selected>Class</option> 
+              <option value="artificer">Artificer</option>
+              <option value="barbarian">Barbarian</option>
+              <option value="bard">Bard</option>
+              <option value="cleric">Cleric</option>
+              <option value="druid">Druid</option>
+              <option value="fighter">Fighter</option>
+              <option value="monk">Monk</option> 
+              <option value="paladin">Paladin</option> 
+              <option value="ranger">Ranger</option> 
+              <option value="rogue">Rogue</option> 
+              <option value="sorcerer">Sorcerer</option> 
+              <option value="warlock">Warlock</option>
+              <option value="Wizard">Wizard</option>
+            </select>
+          </div>
+          <!--Level-->
+          <div class="input-group w3-margin-top">
+            <select class="select" name="level" id="level">
+            <option value="" disabled selected>Level</option> 
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option> 
+              <option value="8">8</option> 
+              <option value="9">9</option> 
+              <option value="10">10</option> 
+              <option value="11">11</option> 
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <!--Ability Scores-->
+          <div class="input-group w3-margin-top">
+            <select class="select" name="strength" id="strength">
+            <option value="" disabled selected>Strength</option> 
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option> 
+              <option value="8">8</option> 
+              <option value="9">9</option> 
+              <option value="10">10</option> 
+              <option value="11">11</option> 
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <div class="input-group w3-margin-top">
+            <select class="select" name="dexterity" id="dexterity">
+            <option value="" disabled selected>Dexterity</option> 
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option> 
+              <option value="8">8</option> 
+              <option value="9">9</option> 
+              <option value="10">10</option> 
+              <option value="11">11</option> 
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <div class="input-group w3-margin-top">
+            <select class="select" name="constitution" id="constitution">
+            <option value="" disabled selected>Constitution</option> 
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option> 
+              <option value="8">8</option> 
+              <option value="9">9</option> 
+              <option value="10">10</option> 
+              <option value="11">11</option> 
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <div class="input-group w3-margin-top">
+            <select class="select" name="intelligence" id="intelligence">
+            <option value="" disabled selected>Intelligence</option> 
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option> 
+              <option value="8">8</option> 
+              <option value="9">9</option> 
+              <option value="10">10</option> 
+              <option value="11">11</option> 
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <div class="input-group w3-margin-top">
+            <select class="select" name="wisdom" id="wisdom">
+            <option value="" disabled selected>Wisdom</option> 
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option> 
+              <option value="8">8</option> 
+              <option value="9">9</option> 
+              <option value="10">10</option> 
+              <option value="11">11</option> 
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <div class="input-group w3-margin-top">
+            <select class="select" name="charisma" id="charisma">
+            <option value="" disabled selected>Charisma</option> 
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option> 
+              <option value="8">8</option> 
+              <option value="9">9</option> 
+              <option value="10">10</option> 
+              <option value="11">11</option> 
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <!--Other-->
+          <div class="input-group w3-margin-top">
+            <input required="" type="text" name="text" autocomplete="off" class="input">
+            <label class="user-label">Armor Class</label>
+          </div>
 
+          <div class="input-group w3-margin-top">
+            <input required="" type="text" name="text" autocomplete="off" class="input">
+            <label class="user-label">Hit Points</label>
+          </div>
+
+          <!--Weapons-->
+          <div class="input-group w3-margin-top">
+            <select class="select" name="weapons" id="simpleMelee" multiple>
+              <option value="" disabled selected>Simple Melee</option>
+              <option value="Club">Club</option> 
+              <option value="Dagger">Dagger</option> 
+              <option value="Greatclub">Greatclub</option> 
+              <option value="Handaxe">Handaxe</option> 
+              <option value="Javelin">Javelin</option> 
+              <option value="LightHammer">LightHammer</option> 
+              <option value="Mace">Mace</option> 
+              <option value="Quarterstaff">Quarterstaff</option> 
+              <option value="Sickle">Sickle</option> 
+              <option value="Spear">Spear</option> 
+            </select>
+          </div>
+
+          <div class="input-group w3-margin-top">
+            <select class="select" name="weapons" id="simpleRanged" multiple>
+              <option value="" disabled selected>Simple Ranged</option>
+              <option value="LightCrossbow">Light Crossbow</option> 
+              <option value="Dart">Dart</option> 
+              <option value="Shortbow">Shortbow</option> 
+              <option value="Sling">Sling</option> 
+            </select>
+          </div>
+          
+          <div class="input-group w3-margin-top">
+            <select class="select" name="weapons" id="martialRanged" multiple>
+              <option value="" disabled selected>Martial Ranged</option>
+              <option value="Blowgun">Blowgun</option> 
+              <option value="HandCrossbow">Hand Crossbow</option> 
+              <option value="HeavyCrossbow">Heavy Crossbow</option> 
+              <option value="Longbow">Longbow</option> 
+              <option value="Net">Net</option> 
+            </select>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
