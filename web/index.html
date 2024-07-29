@@ -50,12 +50,12 @@
 
     <!-- Player Options -->
     <div x-show="hasSelected && isPlayer">
-      <div x-data="newchar">
+      <div x-data="charMenu" x-on:requestChars="handleCharacterRequest($event.detail)">
         <button x-show="!hasSelected" class="w3-margin" x-on:click="chooseNew()">New Character</button>
         <div x-show="!hasSelected" class="input-group w3-margin-top">
           <select class="select" name="charSelect" id="charSelect">
             <option value="" disabled selected>Choose Character</option> 
-            <template x-for="char in $store.socket.existingChars">
+            <template x-for="char in $store.charHandler.existingChars">
               <option x-bind:value="char" x-text="char"></option> 
             </template>
           </select>
