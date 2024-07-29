@@ -43,27 +43,37 @@
     </div>
 
     <div x-show="hasSelected && isPlayer">
-      <!-- There needs to be some kind of menu for choose vs new character here -->
-      <!-- for now im just adding the creation form so that I can look into forming the json-->
-      <!-- What I would do is make some kind of conditional in an alpine data object and-->
-      <!-- only show the creation form if the button has been clicked, you can see how I did it above :)-->
-      <div class="input-group w3-margin-top">
-        <input required="" type="text" name="text" autocomplete="off" class="input">
-        <label class="user-label">Character Name</label>
-      </div>
-      <div class="input-group w3-margin-top">
-        <select class="select" name="race" id="race">
-         <option value="" disabled selected>Race</option> 
-          <option value="dwarf">Dwarf</option>
-          <option value="elf">Elf</option>
-          <option value="halfling">Halfling</option>
-          <option value="human">Human</option>
-          <option value="dragonborn">Dragonborn</option>
-          <option value="gnome">Gnome</option>
-          <option value="half-elf">Half-Elf</option> 
-          <option value="half-orc">Half-Orc</option> 
-          <option value="tiefling">Tiefling</option> 
-        </select>
+      <div x-data="newchar">
+        <button x-show="!hasSelected" class="w3-margin" x-on:click="chooseNew()">New Character</button>
+        <div x-show="!hasSelected" class="input-group w3-margin-top">
+          <select class="select" name="charSelect" id="charSelect">
+          <option value="" disabled selected>Choose Character</option> 
+          </select>
+        </div>
+        <div x-show="hasSelected && pickNew">
+          <!-- for now im just adding the creation form so that I can look into forming the json-->
+          <!-- What I would do is make some kind of conditional in an alpine data object and-->
+          <!-- only show the creation form if the button has been clicked, you can see how I did it above :)-->
+          <div class="input-group w3-margin-top">
+            <input required="" type="text" name="text" autocomplete="off" class="input">
+            <label class="user-label">Character Name</label>
+          </div>
+          <div class="input-group w3-margin-top">
+            <select class="select" name="race" id="race">
+            <option value="" disabled selected>Race</option> 
+              <option value="dwarf">Dwarf</option>
+              <option value="elf">Elf</option>
+              <option value="halfling">Halfling</option>
+              <option value="human">Human</option>
+              <option value="dragonborn">Dragonborn</option>
+              <option value="gnome">Gnome</option>
+              <option value="half-elf">Half-Elf</option> 
+              <option value="half-orc">Half-Orc</option> 
+              <option value="tiefling">Tiefling</option> 
+            </select>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

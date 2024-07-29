@@ -81,5 +81,18 @@ document.addEventListener('alpine:init', () => {
       this.isPlayer = false;
     }
   }));
+
+  Alpine.data('newchar', () => ({
+    hasSelected: false,
+    pickNew: false,
+    chooseNew() {
+      this.hasSelected = true;
+      this.pickNew = true;
+    },
+    chooseExisting() {
+      this.hasSelected = true;
+      this.pickNew = false;
+    }
+  }));
 });
 

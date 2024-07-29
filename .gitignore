@@ -58,6 +58,7 @@ dkms.conf
 [Rr]elease.DLL/
 *.user
 .vs
+.vscode
 
 # Clangd LSP
 .cache
