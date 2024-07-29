@@ -31,7 +31,6 @@
       <p>LANdelver</p>
     </div>
     
-    <!-- Sariah here is the menu entry point you can work on -->
     <div x-show="!hasSelected" x-transition>
       <div>
         <button class="w3-margin" x-on:click="choosePlayer()">player</button>
@@ -47,7 +46,10 @@
         <button x-show="!hasSelected" class="w3-margin" x-on:click="chooseNew()">New Character</button>
         <div x-show="!hasSelected" class="input-group w3-margin-top">
           <select class="select" name="charSelect" id="charSelect">
-          <option value="" disabled selected>Choose Character</option> 
+            <option value="" disabled selected>Choose Character</option> 
+            <template x-for="char in $store.socket.existingChars">
+              <option x-bind:value="char" x-text="char"></option> 
+            </template>
           </select>
         </div>
         <div x-show="hasSelected && pickNew">
@@ -73,7 +75,6 @@
             </select>
           </div>
         </div>
-
       </div>
     </div>
   </div>
