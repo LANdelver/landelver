@@ -1,25 +1,27 @@
 document.addEventListener('alpine:init', () => {
   Alpine.store('socket', {
     hasConnected: false,
+    socket: null,
+    existingChars: [],
     connect() {
-      const socket = new WebSocket(`ws://${window.location.hostname}:8765`);
+      this.socket = new WebSocket(`ws://${window.location.hostname}:8765`);
       console.log("socket created");
       
-      socket.onopen = () => {
+      this.socket.onopen = () => {
         console.log("connection established");
         this.hasConnected = true;
       };
 
-      socket.onmessage = (event) => {
-        console.log(event.data);
+      this.socket.onmessage = (event) => {
+        this.handleMessage(event.data);
       };
 
-      socket.onerror = (error) => {
+      this.socket.onerror = (error) => {
         console.error('WebSocket error:', error);
         this.reconnect();
       };
 
-      socket.onclose = () => {
+      this.socket.onclose = () => {
         console.log("connection closed");
         this.hasConnected = false;
         this.reconnect();
@@ -29,6 +31,19 @@ document.addEventListener('alpine:init', () => {
       setTimeout(() => {
         this.connect();
       }, 5000); 
+    },
+    sendMessage(message) {
+      if (this.socket.readyState === WebSocket.OPEN) {
+          this.socket.send(message);
+      } else {
+          console.error('WebSocket is not open. Ready state is:', this.connection.readyState);
+      }
+    },
+    handleMessage(message) {
+      const data = JSON.parse(message);
+      if (data.type === 'requestChars') {
+        this.existingChars = data.chars;
+      }
     },
     init() {
       console.log('store init');
@@ -75,6 +90,9 @@ document.addEventListener('alpine:init', () => {
     choosePlayer() {
       this.hasSelected = true;
       this.isPlayer = true;
+      console.log('requesting characters');
+      const jsonMessage = JSON.stringify({ type: 'requestChars', content: '' });
+      this.$store.socket.sendMessage(jsonMessage); 
     },
     chooseDm() {
       this.hasSelected = true;
@@ -85,6 +103,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('newchar', () => ({
     hasSelected: false,
     pickNew: false,
+    existingChars: [],
     chooseNew() {
       this.hasSelected = true;
       this.pickNew = true;
@@ -94,5 +113,6 @@ document.addEventListener('alpine:init', () => {
       this.pickNew = false;
     }
   }));
+
 });
 

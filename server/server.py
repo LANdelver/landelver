@@ -1,6 +1,9 @@
 import asyncio
 import websockets
 import socket
+import json
+
+current_campaign = "demo"
 
 # Function to get the LAN IP address of the current machine
 def get_lan_ip():
@@ -15,16 +18,20 @@ def get_lan_ip():
         s.close()
     return ip
 
+async def handle_message(websocket, message):
+    json_data = json.loads(message)
+    if json_data['type'] == "requestChars":
+        packet = '{"type":"requestChars", "chars":["boblin", "clifford"]}'
+        await websocket.send(packet)
+
 # Define a callback function to handle incoming WebSocket messages
 async def handle_websocket(websocket, path):
     try:
         while True:
             message = await websocket.recv()
             print(f"Received message: {message}")
+            await handle_message(websocket, message)
 
-            # You can send a response back to the client if needed
-            response = f"Received: {message}"
-            await websocket.send(response)
     except websockets.ConnectionClosed:
         pass
 
