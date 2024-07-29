@@ -93,6 +93,20 @@ document.addEventListener('alpine:init', () => {
       this.hasSelected = true;
       this.pickNew = false;
     }
+    
+  }));
+
+  Alpine.data('newCampaign', () => ({
+    hasSelected: false,
+    makeNew: false,
+    chooseNew() {
+      this.hasSelected = true;
+      this.makeNew = true;
+    },
+    chooseExisting() {
+      this.hasSelected = true;
+      this.makeNew = false;
+    }
   }));
 });
 
