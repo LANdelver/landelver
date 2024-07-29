@@ -24,16 +24,9 @@
         "initiative": 0,
         "walk_speed": 0,
         "armor_class": 0,
-        "hit_points": 0,
-        "temp_hit_points": 0,
-        "conditions": []
+        "hit_points": 0
     },
     "weapons": [],
-    "actions": {
-        "main_actions": {},
-        "bonus_actions": {},
-        "reactions": {}
-    },
     "spells": [],
     "proficiencies": []
 }
