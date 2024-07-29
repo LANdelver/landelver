@@ -44,20 +44,9 @@
 
     <!-- DM options-->
     <div x-show="hasSelected && !isPlayer">
-      <div x-data="newCampaign">
-        <div x-show="!hasSelected" class="input-group w3-margin-top">
-          <select class="select" name="campaignSelect" id="campaignSelect">
-          <option value="" disabled selected>Choose Campaign</option> 
-          </select>
-        </div>
-        <div x-show="hasSelected && makeNew">
-          <div class="input-group w3-margin-top">
-            <select class="select" name="campaign" id="campaign">
-              <option value="" disabled selected>Campaign</option> 
-            </select>
-          </div>
-        </div>
-      </div>
+        <select class="select" name="campaignSelect" id="campaignSelect">
+        <option value="" disabled selected>Choose Campaign</option> 
+        </select>
     </div>
 
     <!-- Player Options -->
