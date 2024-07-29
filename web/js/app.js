@@ -7,25 +7,25 @@ document.addEventListener('alpine:init', () => {
       this.socket = new WebSocket(`ws://${window.location.hostname}:8765`);
       console.log("socket created");
       
-      this.socket.onopen = () => {
+      socket.addEventListener("open", (event) => {
         console.log("connection established");
         this.hasConnected = true;
-      };
+      });
 
-      this.socket.onmessage = (event) => {
+      socket.addEventListener("message", (event) => {
         this.handleMessage(event.data);
-      };
+      });
 
-      this.socket.onerror = (error) => {
+      socket.addEventListener("error", (event) => {
         console.error('WebSocket error:', error);
         this.reconnect();
-      };
+      });
 
-      this.socket.onclose = () => {
+      socket.addEventListener("close", (event) => {
         console.log("connection closed");
         this.hasConnected = false;
         this.reconnect();
-      };
+      });
     },
     reconnect() {
       setTimeout(() => {
