@@ -47,9 +47,6 @@ document.addEventListener('alpine:init', () => {
     connectClicked() {
       this.connecting = true;
       this.$store.socket.connectionFailed = false;
-      this.$nextTick(() => {
-        if (!this.$store.socket.connectionFailed) connecting = false;
-      });
       this.$store.socket.connect();
     },
   }));
