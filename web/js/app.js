@@ -2,26 +2,24 @@ document.addEventListener('alpine:init', () => {
   Alpine.store('socket', {
     hasConnected: false,
     socket: null,
-    existingChars: [],
     connect() {
       this.socket = new WebSocket(`ws://${window.location.hostname}:8765`);
       console.log("socket created");
       
-      socket.addEventListener("open", (event) => {
+      this.socket.addEventListener("open", (event) => {
         console.log("connection established");
         this.hasConnected = true;
       });
 
-      socket.addEventListener("message", (event) => {
+      this.socket.addEventListener("message", (event) => {
         this.handleMessage(event.data);
       });
 
-      socket.addEventListener("error", (event) => {
+      this.socket.addEventListener("error", (event) => {
         console.error('WebSocket error:', error);
-        this.reconnect();
       });
 
-      socket.addEventListener("close", (event) => {
+      this.socket.addEventListener("close", (event) => {
         console.log("connection closed");
         this.hasConnected = false;
         this.reconnect();
@@ -42,7 +40,7 @@ document.addEventListener('alpine:init', () => {
     handleMessage(message) {
       const data = JSON.parse(message);
       if (data.type === 'requestChars') {
-        this.existingChars = data.chars;
+        Alpine.store('charHandler').handleCharacterRequest(data);
       }
     },
     init() {
@@ -100,10 +98,9 @@ document.addEventListener('alpine:init', () => {
     }
   }));
 
-  Alpine.data('newchar', () => ({
+  Alpine.data('charMenu', () => ({
     hasSelected: false,
     pickNew: false,
-    existingChars: [],
     chooseNew() {
       this.hasSelected = true;
       this.pickNew = true;
@@ -111,8 +108,16 @@ document.addEventListener('alpine:init', () => {
     chooseExisting() {
       this.hasSelected = true;
       this.pickNew = false;
-    }
+    },
   }));
+
+  Alpine.store('charHandler', {
+    existingChars: [],
+    handleCharacterRequest(data) {
+      console.log('recieved character request');
+      this.existingChars = data.chars; 
+    }
+  });
 
 });
 
