@@ -19,13 +19,7 @@
   }
 }
 
-.loading-body {
-  width: 100%;
-  text-align: center;
-  background-color: #C73032;
-}
-
-.connected-body {
+body {
   width: 100%;
   text-align: center;
   background-color: #212121;
@@ -53,7 +47,7 @@
 
 }
 
-.loading-messages {
+.connection-message {
   font-family: 'draconis';
   font-size: 3rem;
   color: white;

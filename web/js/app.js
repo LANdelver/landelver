@@ -1,9 +1,11 @@
 document.addEventListener('alpine:init', () => {
   Alpine.store('socket', {
     hasConnected: false,
+    connectionFailed: false,
     socket: null,
+    joinCode: null,
     connect() {
-      this.socket = new WebSocket(`ws://${window.location.hostname}:8765`);
+      this.socket = new WebSocket(`ws://192.168.1.${this.joinCode}:8765`);
       console.log("socket created");
       
       this.socket.addEventListener("open", (event) => {
@@ -22,13 +24,8 @@ document.addEventListener('alpine:init', () => {
       this.socket.addEventListener("close", (event) => {
         console.log("connection closed");
         this.hasConnected = false;
-        this.reconnect();
+        this.connectionFailed = true;
       });
-    },
-    reconnect() {
-      setTimeout(() => {
-        this.connect();
-      }, 5000); 
     },
     sendMessage(message) {
       if (this.socket.readyState === WebSocket.OPEN) {
@@ -43,45 +40,20 @@ document.addEventListener('alpine:init', () => {
         Alpine.store('charHandler').handleCharacterRequest(data);
       }
     },
-    init() {
-      console.log('store init');
-      this.connect();
-    }
   });
 
-  Alpine.data('loadingPage', () => ({
-    messages: [
-      "rolling initiative...",
-      "generating dungeons...",
-      "brewing potions...",
-      "seducing the dragon...",
-      "casting fireballs...",
-      "entering rage...",
-      "perceiving... nothing?",
-      "disarming traps...",
-      "meeting in tavern...",
-      "standing night watch...",
-      "viciously mocking...",
-      "picking pockets...",
-      "speaking with animals...",
-      "looting bodies...",
-      "attuning magic items...",
-      "reading spell scrolls...",
-      "looting the bodies..."
-    ],
-    currentMessageIndex: 0,
-    currentMessage: "rolling initiative...",
-    startLoad() {
-      setInterval(() => {
-        this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
-        this.currentMessage = this.messages[this.currentMessageIndex];
-      }, 2000);
+  Alpine.data('connectMessage', () => ({
+    connecting: false,
+    connectClicked() {
+      this.connecting = true;
+      this.$store.socket.connectionFailed = false;
+      this.$nextTick(() => {
+        if (!this.$store.socket.connectionFailed) connecting = false;
+      });
+      this.$store.socket.connect();
     },
-    init() {
-      this.startLoad();
-    } 
   }));
-  
+
   Alpine.data('user', () => ({
     hasSelected: false,
     isPlayer: false,

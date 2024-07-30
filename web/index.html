@@ -11,17 +11,22 @@
 </head>
 
 <!-- the body background will change based on if we have connected yet -->
-<body x-data x-bind:class="$store.socket.hasConnected ? 'connected-body' : 'loading-body'">  
+<body class="">  
   <!-- Loading page content -->
-  <div x-data="loadingPage" x-show="!$store.socket.hasConnected" x-transition>
+  <div x-data x-show="!$store.socket.hasConnected" x-transition>
     <div class="loading-title">
       <p>&LANdelver</p>
     </div>
-    <div class="spinner-container">
-      <img src="css/res/spinner.png" alt="loading spinner" class="spinner">
-      <div class="loading-messages">
-        <p x-text="currentMessage"></p>
+    <div class="input-group w3-margin-top">
+      <input required="" type="text" name="text" autocomplete="off" class="input" x-model="$store.socket.joinCode">
+      <label class="user-label">Join Code</label>
+    </div>
+    <div x-data="connectMessage">
+      <div>
+        <button class="w3-margin" x-on:click="connectClicked()">connect</button>
       </div>
+      <p class="connection-message" x-init="$watch('$store.socket.connectionFailed', value => connecting = !value)" x-show="connecting">connecting...</p>
+      <p class="connection-message" x-show="$store.socket.connectionFailed">connection failed</p>
     </div>
   </div>
 
