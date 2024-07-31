@@ -23,7 +23,7 @@
     </div>
     <div x-data="connectMessage">
       <div>
-        <button class="w3-margin" x-on:click="connectClicked()">connect</button>
+        <button class="w3-margin-top" x-on:click="connectClicked()">connect</button>
       </div>
       <p class="connection-message" x-init="$watch('$store.socket.connectionFailed', value => connecting = !value)" x-show="connecting">connecting...</p>
       <p class="connection-message" x-show="$store.socket.connectionFailed">connection failed</p>
@@ -38,11 +38,11 @@
     
     <div x-show="!hasSelected" x-transition>
       <div>
-        <button class="w3-margin" x-on:click="choosePlayer()">player</button>
+        <button class="w3-margin-top" x-on:click="choosePlayer()">player</button>
       </div>
       
       <div>
-        <button class="w3-margin" x-on:click="chooseDm()">dungeon master</button>
+        <button class="w3-margin-top" x-on:click="chooseDm()">dungeon master</button>
       </div>
     </div>
 
@@ -56,7 +56,7 @@
     <!-- Player Options -->
     <div x-show="hasSelected && isPlayer">
       <div x-data="charMenu" x-on:requestChars="handleCharacterRequest($event.detail)">
-        <button x-show="!hasSelected" class="w3-margin" x-on:click="chooseNew()">New Character</button>
+        <button x-show="!hasSelected" class="w3-margin-top" x-on:click="chooseNew()">New Character</button>
         <div x-show="!hasSelected" class="input-group w3-margin-top">
           <select class="select" name="charSelect" id="charSelect">
             <option value="" disabled selected>Choose Character</option> 
@@ -66,9 +66,6 @@
           </select>
         </div>
         <div x-show="hasSelected && pickNew">
-          <!-- for now im just adding the creation form so that I can look into forming the json-->
-          <!-- What I would do is make some kind of conditional in an alpine data object and-->
-          <!-- only show the creation form if the button has been clicked, you can see how I did it above :)-->
           <div class="input-group w3-margin-top">
             <input required="" type="text" name="text" autocomplete="off" class="input">
             <label class="user-label">Character Name</label>
@@ -89,10 +86,11 @@
           <!--Class-->
           <div x-data="{ classes: ['Artificer', 'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 
           'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'] }" class="input-group w3-margin-top">
-            <select class="select" name="class" id="class">
+            <select x-data="dropdownState" class="select" name="dndclass" 
+              id="dndclass" x-ref="select" x-on:change="checkSelect($refs.select)">
               <option value="" disabled selected>Class</option> 
-              <template x-for="class in classes">
-                <option x-bind:value="class" x-text="class"></option>
+              <template x-for="dndclass in classes">
+                <option x-bind:value="dndclass" x-text="dndclass"></option>
               </template>
             </select>
             <label class="user-label">Class</label>

@@ -1,4 +1,7 @@
 document.addEventListener('alpine:init', () => {
+  
+  /* Store that handles the websocket
+  and the communication events for it*/
   Alpine.store('socket', {
     hasConnected: false,
     connectionFailed: false,
@@ -27,6 +30,7 @@ document.addEventListener('alpine:init', () => {
         this.connectionFailed = true;
       });
     },
+    // all outgoing messages need to go thru here
     sendMessage(message) {
       if (this.socket.readyState === WebSocket.OPEN) {
           this.socket.send(message);
@@ -34,6 +38,7 @@ document.addEventListener('alpine:init', () => {
           console.error('WebSocket is not open. Ready state is:', this.connection.readyState);
       }
     },
+    // all incoming messages need to be delegated here
     handleMessage(message) {
       const data = JSON.parse(message);
       if (data.type === 'requestChars') {
@@ -42,6 +47,8 @@ document.addEventListener('alpine:init', () => {
     },
   });
 
+  /* Data to handle reactivity 
+  to the connect button */
   Alpine.data('connectMessage', () => ({
     connecting: false,
     connectClicked() {
@@ -51,6 +58,8 @@ document.addEventListener('alpine:init', () => {
     },
   }));
 
+  /* Data for the user upon login
+  handles if they select player or dm*/
   Alpine.data('user', () => ({
     hasSelected: false,
     isPlayer: false,
@@ -67,6 +76,8 @@ document.addEventListener('alpine:init', () => {
     }
   }));
 
+  /* Data for the new/existing
+  character menu selection */
   Alpine.data('charMenu', () => ({
     hasSelected: false,
     pickNew: false,
@@ -80,6 +91,7 @@ document.addEventListener('alpine:init', () => {
     },
   }));
 
+  // Store to handle the character requests
   Alpine.store('charHandler', {
     existingChars: [],
     handleCharacterRequest(data) {
@@ -88,7 +100,9 @@ document.addEventListener('alpine:init', () => {
     }
   });
 
+  // Data for all dropdown fields
   Alpine.data('dropdownState', () => ({
+    // ensures the label moves up after being interacted with
     checkSelect(select) {
       if (select.value) {
         select.classList.add('has-value');
@@ -98,6 +112,14 @@ document.addEventListener('alpine:init', () => {
     },
     init() {
       this.checkSelect(this.$refs.select);
+      
+      // Ensure label transitions correctly on focus for mobile
+      this.$refs.select.addEventListener('focus', () => {
+        this.$refs.select.classList.add('has-value');
+      });
+      this.$refs.select.addEventListener('blur', () => {
+        this.checkSelect(this.$refs.select);
+      });
     }
   }));
 
