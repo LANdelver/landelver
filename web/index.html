@@ -11,17 +11,22 @@
 </head>
 
 <!-- the body background will change based on if we have connected yet -->
-<body x-data x-bind:class="$store.socket.hasConnected ? 'connected-body' : 'loading-body'">  
+<body class="">  
   <!-- Loading page content -->
-  <div x-data="loadingPage" x-show="!$store.socket.hasConnected" x-transition>
+  <div x-data x-show="!$store.socket.hasConnected" x-transition>
     <div class="loading-title">
       <p>&LANdelver</p>
     </div>
-    <div class="spinner-container">
-      <img src="css/res/spinner.png" alt="loading spinner" class="spinner">
-      <div class="loading-messages">
-        <p x-text="currentMessage"></p>
+    <div class="input-group w3-margin-top">
+      <input required="" type="text" name="text" autocomplete="off" class="input" x-model="$store.socket.joinCode">
+      <label class="user-label">Join Code</label>
+    </div>
+    <div x-data="connectMessage">
+      <div>
+        <button class="w3-margin" x-on:click="connectClicked()">connect</button>
       </div>
+      <p class="connection-message" x-init="$watch('$store.socket.connectionFailed', value => connecting = !value)" x-show="connecting">connecting...</p>
+      <p class="connection-message" x-show="$store.socket.connectionFailed">connection failed</p>
     </div>
   </div>
 
@@ -69,205 +74,59 @@
             <label class="user-label">Character Name</label>
           </div>
           <!--Race-->
-          <div class="input-group w3-margin-top">
-            <select class="select" name="race" id="race">
-            <option value="" disabled selected>Race</option> 
-              <option value="dwarf">Dwarf</option>
-              <option value="elf">Elf</option>
-              <option value="halfling">Halfling</option>
-              <option value="human">Human</option>
-              <option value="dragonborn">Dragonborn</option>
-              <option value="gnome">Gnome</option>
-              <option value="half-elf">Half-Elf</option> 
-              <option value="half-orc">Half-Orc</option> 
-              <option value="tiefling">Tiefling</option> 
+          <div x-data="{ races: ['Dwarf', 'Elf', 'Halfling', 'Human', 'Dragonborn', 
+          'Gnome', 'Half-Elf', 'Half-Orc', 'Tiefling'] }" class="input-group w3-margin-top">
+            <select x-data="dropdownState" class="select" name="race" 
+              id="race" x-ref="select" x-on:change="checkSelect($refs.select)">
+              <option value="" disabled selected>Race</option> 
+              <template x-for="race in races">
+                <option x-bind:value="race" x-text="race"></option>
+              </template>
             </select>
+            <label class="user-label">Race</label>
           </div>
           
           <!--Class-->
-          <div class="input-group w3-margin-top">
+          <div x-data="{ classes: ['Artificer', 'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 
+          'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'] }" class="input-group w3-margin-top">
             <select class="select" name="class" id="class">
-            <option value="" disabled selected>Class</option> 
-              <option value="artificer">Artificer</option>
-              <option value="barbarian">Barbarian</option>
-              <option value="bard">Bard</option>
-              <option value="cleric">Cleric</option>
-              <option value="druid">Druid</option>
-              <option value="fighter">Fighter</option>
-              <option value="monk">Monk</option> 
-              <option value="paladin">Paladin</option> 
-              <option value="ranger">Ranger</option> 
-              <option value="rogue">Rogue</option> 
-              <option value="sorcerer">Sorcerer</option> 
-              <option value="warlock">Warlock</option>
-              <option value="Wizard">Wizard</option>
+              <option value="" disabled selected>Class</option> 
+              <template x-for="class in classes">
+                <option x-bind:value="class" x-text="class"></option>
+              </template>
             </select>
+            <label class="user-label">Class</label>
           </div>
+
           <!--Level-->
           <div class="input-group w3-margin-top">
-            <select class="select" name="level" id="level">
+            <select x-data="dropdownState" class="select" name="level" 
+              id="level" x-ref="select" x-on:change="checkSelect($refs.select)">
             <option value="" disabled selected>Level</option> 
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option> 
-              <option value="8">8</option> 
-              <option value="9">9</option> 
-              <option value="10">10</option> 
-              <option value="11">11</option> 
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
+            <template x-for="i in 20">
+              <option x-bind:value="i" x-text="i"></option>
+            </template>
             </select>
+            <label class="user-label">Level</label>
           </div>
+          
           <!--Ability Scores-->
-          <div class="input-group w3-margin-top">
-            <select class="select" name="strength" id="strength">
-            <option value="" disabled selected>Strength</option> 
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option> 
-              <option value="8">8</option> 
-              <option value="9">9</option> 
-              <option value="10">10</option> 
-              <option value="11">11</option> 
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-            </select>
+          <div x-data="{ abilities: ['Strength', 'Dexterity', 'Constitution', 
+          'Intelligence', 'Wisdom', 'Charisma'] }">
+            <template x-for="ability in abilities">
+              <div class="input-group w3-margin-top">
+                <select x-data="dropdownState" class="select" x-bind:name="ability" 
+                  x-bind:id="ability" x-ref="select" x-on:change="checkSelect($refs.select)">
+                  <option value="" x-text="ability" disabled selected></option> 
+                  <template x-for="i in 18">
+                    <option x-bind:value="i + 2" x-text="i + 2"></option>
+                  </template>
+                </select>
+                <label class="user-label" x-text="ability"></label>
+              </div>
+            </template>
           </div>
-          <div class="input-group w3-margin-top">
-            <select class="select" name="dexterity" id="dexterity">
-            <option value="" disabled selected>Dexterity</option> 
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option> 
-              <option value="8">8</option> 
-              <option value="9">9</option> 
-              <option value="10">10</option> 
-              <option value="11">11</option> 
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-            </select>
-          </div>
-          <div class="input-group w3-margin-top">
-            <select class="select" name="constitution" id="constitution">
-            <option value="" disabled selected>Constitution</option> 
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option> 
-              <option value="8">8</option> 
-              <option value="9">9</option> 
-              <option value="10">10</option> 
-              <option value="11">11</option> 
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-            </select>
-          </div>
-          <div class="input-group w3-margin-top">
-            <select class="select" name="intelligence" id="intelligence">
-            <option value="" disabled selected>Intelligence</option> 
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option> 
-              <option value="8">8</option> 
-              <option value="9">9</option> 
-              <option value="10">10</option> 
-              <option value="11">11</option> 
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-            </select>
-          </div>
-          <div class="input-group w3-margin-top">
-            <select class="select" name="wisdom" id="wisdom">
-            <option value="" disabled selected>Wisdom</option> 
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option> 
-              <option value="8">8</option> 
-              <option value="9">9</option> 
-              <option value="10">10</option> 
-              <option value="11">11</option> 
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-            </select>
-          </div>
-          <div class="input-group w3-margin-top">
-            <select class="select" name="charisma" id="charisma">
-            <option value="" disabled selected>Charisma</option> 
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option> 
-              <option value="8">8</option> 
-              <option value="9">9</option> 
-              <option value="10">10</option> 
-              <option value="11">11</option> 
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-            </select>
-          </div>
+
           <!--Other-->
           <div class="input-group w3-margin-top">
             <input required="" type="text" name="text" autocomplete="off" class="input">
@@ -280,40 +139,31 @@
           </div>
 
           <!--Weapons-->
-          <div class="input-group w3-margin-top">
-            <select class="select" name="weapons" id="simpleMelee" multiple>
+          <div x-data="{ weapons: ['Club', 'Dagger', 'Greatclub', 'Handaxe', 'Javelin', 
+          'Light Hammer', 'Mace', 'Quarterstaff', 'Sickle', 'Spear'] }" class="input-group w3-margin-top">
+            <select class="select" name="simpleMelee" id="simpleMelee" multiple>
               <option value="" disabled selected>Simple Melee</option>
-              <option value="Club">Club</option> 
-              <option value="Dagger">Dagger</option> 
-              <option value="Greatclub">Greatclub</option> 
-              <option value="Handaxe">Handaxe</option> 
-              <option value="Javelin">Javelin</option> 
-              <option value="LightHammer">LightHammer</option> 
-              <option value="Mace">Mace</option> 
-              <option value="Quarterstaff">Quarterstaff</option> 
-              <option value="Sickle">Sickle</option> 
-              <option value="Spear">Spear</option> 
+              <template x-for="weapon in weapons">
+                <option x-bind:value="weapon" x-text="weapon"></option> 
+              </template>
             </select>
           </div>
 
-          <div class="input-group w3-margin-top">
-            <select class="select" name="weapons" id="simpleRanged" multiple>
+          <div x-data="{ weapons: ['Light Crossbow', 'Dart', 'Shortbow', 'Sling'] }" class="input-group w3-margin-top">
+            <select class="select" name="simpleRanged" id="simpleRanged" multiple>
               <option value="" disabled selected>Simple Ranged</option>
-              <option value="LightCrossbow">Light Crossbow</option> 
-              <option value="Dart">Dart</option> 
-              <option value="Shortbow">Shortbow</option> 
-              <option value="Sling">Sling</option> 
+              <template x-for="weapon in weapons">
+                <option x-bind:value="weapon" x-text="weapon"></option> 
+              </template>
             </select>
           </div>
           
-          <div class="input-group w3-margin-top">
-            <select class="select" name="weapons" id="martialRanged" multiple>
+          <div x-data="{ weapons: ['Blowgun', 'Hand Crossbow', 'Heavy Crossbow', 'Longbow', 'Net'] }" class="input-group w3-margin-top">
+            <select class="select" name="martialRanged" id="martialRanged" multiple>
               <option value="" disabled selected>Martial Ranged</option>
-              <option value="Blowgun">Blowgun</option> 
-              <option value="HandCrossbow">Hand Crossbow</option> 
-              <option value="HeavyCrossbow">Heavy Crossbow</option> 
-              <option value="Longbow">Longbow</option> 
-              <option value="Net">Net</option> 
+              <template x-for="weapon in weapons">
+                <option x-bind:value="weapon" x-text="weapon"></option> 
+              </template>
             </select>
           </div>
         </div>
