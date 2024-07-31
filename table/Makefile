@@ -188,7 +188,8 @@ PROJECT_SOURCE_FILES ?= \
     main.c \
 	token.c \
     event.c \
-    server.c
+    server.c \
+    status.c
 # Define all object files from source files
 OBJS = $(patsubst %.c, %.o, $(PROJECT_SOURCE_FILES))
 
