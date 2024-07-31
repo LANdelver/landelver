@@ -88,5 +88,18 @@ document.addEventListener('alpine:init', () => {
     }
   });
 
+  Alpine.data('dropdownState', () => ({
+    checkSelect(select) {
+      if (select.value) {
+        select.classList.add('has-value');
+      } else {
+        select.classList.remove('has-value');
+      }
+    },
+    init() {
+      this.checkSelect(this.$refs.select);
+    }
+  }));
+
 });
 

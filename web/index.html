@@ -74,60 +74,59 @@
             <label class="user-label">Character Name</label>
           </div>
           <!--Race-->
-          <div class="input-group w3-margin-top">
-            <select class="select" name="race" id="race">
-            <option value="" disabled selected>Race</option> 
-              <option value="dwarf">Dwarf</option>
-              <option value="elf">Elf</option>
-              <option value="halfling">Halfling</option>
-              <option value="human">Human</option>
-              <option value="dragonborn">Dragonborn</option>
-              <option value="gnome">Gnome</option>
-              <option value="half-elf">Half-Elf</option> 
-              <option value="half-orc">Half-Orc</option> 
-              <option value="tiefling">Tiefling</option> 
+          <div x-data="{ races: ['Dwarf', 'Elf', 'Halfling', 'Human', 'Dragonborn', 
+          'Gnome', 'Half-Elf', 'Half-Orc', 'Tiefling'] }" class="input-group w3-margin-top">
+            <select x-data="dropdownState" class="select" name="race" 
+              id="race" x-ref="select" x-on:change="checkSelect($refs.select)">
+              <option value="" disabled selected>Race</option> 
+              <template x-for="race in races">
+                <option x-bind:value="race" x-text="race"></option>
+              </template>
             </select>
+            <label class="user-label">Race</label>
           </div>
           
           <!--Class-->
-          <div class="input-group w3-margin-top">
+          <div x-data="{ classes: ['Artificer', 'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 
+          'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'] }" class="input-group w3-margin-top">
             <select class="select" name="class" id="class">
-            <option value="" disabled selected>Class</option> 
-              <option value="artificer">Artificer</option>
-              <option value="barbarian">Barbarian</option>
-              <option value="bard">Bard</option>
-              <option value="cleric">Cleric</option>
-              <option value="druid">Druid</option>
-              <option value="fighter">Fighter</option>
-              <option value="monk">Monk</option> 
-              <option value="paladin">Paladin</option> 
-              <option value="ranger">Ranger</option> 
-              <option value="rogue">Rogue</option> 
-              <option value="sorcerer">Sorcerer</option> 
-              <option value="warlock">Warlock</option>
-              <option value="Wizard">Wizard</option>
+              <option value="" disabled selected>Class</option> 
+              <template x-for="class in classes">
+                <option x-bind:value="class" x-text="class"></option>
+              </template>
             </select>
+            <label class="user-label">Class</label>
           </div>
+
           <!--Level-->
           <div class="input-group w3-margin-top">
-            <select class="select" name="level" id="level">
+            <select x-data="dropdownState" class="select" name="level" 
+              id="level" x-ref="select" x-on:change="checkSelect($refs.select)">
             <option value="" disabled selected>Level</option> 
             <template x-for="i in 20">
               <option x-bind:value="i" x-text="i"></option>
             </template>
             </select>
+            <label class="user-label">Level</label>
           </div>
+          
           <!--Ability Scores-->
-          <div x-data="{ abilities: ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'] }" class="input-group w3-margin-top">
+          <div x-data="{ abilities: ['Strength', 'Dexterity', 'Constitution', 
+          'Intelligence', 'Wisdom', 'Charisma'] }">
             <template x-for="ability in abilities">
-              <select class="select" x-bind:name="ability" x-bind:id="ability">
-              <option value="" x-text="ability" disabled selected></option> 
-              <template x-for="i in 18">
-                <option x-bind:value="i + 2" x-text="i + 2"></option>
-              </template>
-              </select>
+              <div class="input-group w3-margin-top">
+                <select x-data="dropdownState" class="select" x-bind:name="ability" 
+                  x-bind:id="ability" x-ref="select" x-on:change="checkSelect($refs.select)">
+                  <option value="" x-text="ability" disabled selected></option> 
+                  <template x-for="i in 18">
+                    <option x-bind:value="i + 2" x-text="i + 2"></option>
+                  </template>
+                </select>
+                <label class="user-label" x-text="ability"></label>
+              </div>
             </template>
           </div>
+
           <!--Other-->
           <div class="input-group w3-margin-top">
             <input required="" type="text" name="text" autocomplete="off" class="input">
@@ -140,40 +139,31 @@
           </div>
 
           <!--Weapons-->
-          <div class="input-group w3-margin-top">
-            <select class="select" name="weapons" id="simpleMelee" multiple>
+          <div x-data="{ weapons: ['Club', 'Dagger', 'Greatclub', 'Handaxe', 'Javelin', 
+          'Light Hammer', 'Mace', 'Quarterstaff', 'Sickle', 'Spear'] }" class="input-group w3-margin-top">
+            <select class="select" name="simpleMelee" id="simpleMelee" multiple>
               <option value="" disabled selected>Simple Melee</option>
-              <option value="Club">Club</option> 
-              <option value="Dagger">Dagger</option> 
-              <option value="Greatclub">Greatclub</option> 
-              <option value="Handaxe">Handaxe</option> 
-              <option value="Javelin">Javelin</option> 
-              <option value="LightHammer">LightHammer</option> 
-              <option value="Mace">Mace</option> 
-              <option value="Quarterstaff">Quarterstaff</option> 
-              <option value="Sickle">Sickle</option> 
-              <option value="Spear">Spear</option> 
+              <template x-for="weapon in weapons">
+                <option x-bind:value="weapon" x-text="weapon"></option> 
+              </template>
             </select>
           </div>
 
-          <div class="input-group w3-margin-top">
-            <select class="select" name="weapons" id="simpleRanged" multiple>
+          <div x-data="{ weapons: ['Light Crossbow', 'Dart', 'Shortbow', 'Sling'] }" class="input-group w3-margin-top">
+            <select class="select" name="simpleRanged" id="simpleRanged" multiple>
               <option value="" disabled selected>Simple Ranged</option>
-              <option value="LightCrossbow">Light Crossbow</option> 
-              <option value="Dart">Dart</option> 
-              <option value="Shortbow">Shortbow</option> 
-              <option value="Sling">Sling</option> 
+              <template x-for="weapon in weapons">
+                <option x-bind:value="weapon" x-text="weapon"></option> 
+              </template>
             </select>
           </div>
           
-          <div class="input-group w3-margin-top">
-            <select class="select" name="weapons" id="martialRanged" multiple>
+          <div x-data="{ weapons: ['Blowgun', 'Hand Crossbow', 'Heavy Crossbow', 'Longbow', 'Net'] }" class="input-group w3-margin-top">
+            <select class="select" name="martialRanged" id="martialRanged" multiple>
               <option value="" disabled selected>Martial Ranged</option>
-              <option value="Blowgun">Blowgun</option> 
-              <option value="HandCrossbow">Hand Crossbow</option> 
-              <option value="HeavyCrossbow">Heavy Crossbow</option> 
-              <option value="Longbow">Longbow</option> 
-              <option value="Net">Net</option> 
+              <template x-for="weapon in weapons">
+                <option x-bind:value="weapon" x-text="weapon"></option> 
+              </template>
             </select>
           </div>
         </div>

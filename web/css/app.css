@@ -108,7 +108,7 @@ button:active {
   width: 100%;
 }
 
-.input {
+.input, .select {
   border: solid 1.5px #9e9e9e;
   border-radius: 1rem;
   background: none;
@@ -118,6 +118,17 @@ button:active {
   transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   box-sizing: border-box;
+}
+
+.select {
+  line-height: 1.5;
+  appearance: none; /* Remove default arrow */
+  -webkit-appearance: none; /* Remove default arrow for Safari */
+  -moz-appearance: none; /* Remove default arrow for Firefox */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="%23fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
 }
 
 .user-label {
@@ -132,37 +143,23 @@ button:active {
   padding: 0 .2em;
 }
 
-.input:focus,
-.input:valid {
+.input:focus, .input:valid {
   outline: none;
   border: 1.5px solid #C73032;
 }
 
-.input:focus ~ .user-label,
-.input:valid ~ .user-label {
+.input:focus ~ .user-label, .input:valid ~ .user-label, .select.has-value ~ .user-label, .select:focus ~ .user-label {
   transform: translateY(-50%) scale(0.8);
   background-color: #212121;
+  padding: 0 .2em;
   color: #f5f5f5;
 }
 
-.select {
-  border: solid 1.5px #9e9e9e;
-  border-radius: 1rem;
-  background: none;
-  padding: 1rem;
-  font-size: 1.5rem;
+.input:focus ~ .user-label, .input:valid ~ .user-label, .select.has-value ~ .user-label, .select:focus ~ .user-label {
+  transform: translateY(-50%) scale(0.8);
+  background-color: #212121;
+  padding: 0 .2em;
   color: #f5f5f5;
-  transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  width: 100%;
-  box-sizing: border-box;
-  line-height: 1.5;
-  appearance: none; /* Remove default arrow */
-  -webkit-appearance: none; /* Remove default arrow for Safari */
-  -moz-appearance: none; /* Remove default arrow for Firefox */
-  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="%23fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1rem;
 }
 
 .select:focus {
