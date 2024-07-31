@@ -23,6 +23,14 @@ along with this program.
 
 #define TOKEN_SIZE 128
 
+/*
+====================
+new_token
+
+creates and returns 
+a token
+====================
+*/
 static token_t new_token(const char *filename, const char *label,
                          bool is_player) {
   token_t token;
@@ -36,14 +44,39 @@ static token_t new_token(const char *filename, const char *label,
   return token;
 }
 
+/*
+====================
+new_player_token
+
+creates and returns
+new player token
+====================
+*/
 token_t new_player_token(const char *filename, const char *label) {
   return new_token(filename, label, true);
 }
 
+/*
+====================
+new_enemy_token
+
+creates and returns
+new enemy token
+====================
+*/
 token_t new_enemy_token(const char *filename) {
   return new_token(filename, "", false);
 }
 
+/*
+====================
+update_token
+
+updates any changes
+in token data between
+frames
+====================
+*/
 void update_token(token_t *token, Camera2D camera) {
   static bool is_dragging = false;
   static Vector2 offset;
@@ -83,6 +116,15 @@ void update_token(token_t *token, Camera2D camera) {
   DrawText(debug_log, 20, 40, 20, DARKGRAY);
 }
 
+/*
+====================
+draw_token
+
+updates the visuals
+of the token each
+frame
+====================
+*/
 void draw_token(token_t *token) {
   DrawTextureV(token->image, token->position, WHITE);
 
@@ -91,4 +133,12 @@ void draw_token(token_t *token) {
            token->position.y + TOKEN_SIZE + 10, 20, DARKGRAY);
 }
 
+/*
+====================
+remove_token
+
+frees memory used
+by the token
+====================
+*/
 void remove_token(token_t *token) { UnloadTexture(token->image); }
