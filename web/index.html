@@ -23,7 +23,7 @@
     </div>
     <div x-data="connectMessage">
       <div>
-        <button class="w3-margin-top" x-on:click="connectClicked()">connect</button>
+        <button class="button w3-margin-top" x-on:click="connectClicked()">connect</button>
       </div>
       <p class="connection-message" x-init="$watch('$store.socket.connectionFailed', value => connecting = !value)" x-show="connecting">connecting...</p>
       <p class="connection-message" x-show="$store.socket.connectionFailed">connection failed</p>
@@ -31,18 +31,18 @@
   </div>
 
   <!-- User space content -->
-  <div x-data='user' x-show="$store.socket.hasConnected" x-transition>
+  <div x-data="user" x-show="$store.socket.hasConnected" x-transition>
     <div class="w3-bar topbar">
       <p>LANdelver</p>
     </div>
     
     <div x-show="!hasSelected" x-transition>
       <div>
-        <button class="w3-margin-top" x-on:click="choosePlayer()">player</button>
+        <button class="button w3-margin-top" x-on:click="choosePlayer()">player</button>
       </div>
       
       <div>
-        <button class="w3-margin-top" x-on:click="chooseDm()">dungeon master</button>
+        <button class="button w3-margin-top" x-on:click="chooseDm()">dungeon master</button>
       </div>
     </div>
 
@@ -56,7 +56,7 @@
     <!-- Player Options -->
     <div x-show="hasSelected && isPlayer">
       <div x-data="charMenu" x-on:requestChars="handleCharacterRequest($event.detail)">
-        <button x-show="!hasSelected" class="w3-margin-top" x-on:click="chooseNew()">New Character</button>
+        <button x-show="!hasSelected" class="button w3-margin-top" x-on:click="chooseNew()">New Character</button>
         <div x-show="!hasSelected" class="input-group w3-margin-top">
           <select class="select" name="charSelect" id="charSelect">
             <option value="" disabled selected>Choose Character</option> 

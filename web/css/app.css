@@ -83,10 +83,9 @@ body {
     }
 }
 
-button {
+.button {
   --accent: #992E2E;
-  font-weight: bold;
-  letter-spacing: 0.1em;
+  font-size: 1.5rem;
   border: 1.5px solid #9E9E9E;
   border-radius: 1rem;
   width: 100%;
@@ -94,11 +93,11 @@ button {
   cursor: pointer;
   color: #F5F5F5;
   padding: 1rem;
-  transition: background-color ease-in-out 0.1s,
-    letter-spacing ease-in-out 0.1s, transform ease-in-out 0.1s;
+  transition: background-color ease-in-out 0.1s, 
+  transform ease-in-out 0.1s;
 }
 
-button:active {
+.button:active {
   box-shadow: var(--hover-shadows), var(--accent) 0px 0px 30px 5px;
   background-color: var(--accent);
   transform: scale(0.95);
