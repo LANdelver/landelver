@@ -21,12 +21,17 @@ along with this program.
 
 #include "raymath.h"
 #include "rlgl.h"
+#include "server.h"
 #include "token.h"
 
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
 int main() {
+  // Start python server thread
+  //----------------------------------------------------------------------------------
+  start_websocket_server();
+
   // Initialization
   //--------------------------------------------------------------------------------------
   const int screenWidth = 1920;
