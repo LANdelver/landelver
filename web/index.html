@@ -182,6 +182,14 @@ along with this program.
               </template>
             </select>
           </div>
+          <div x-data="{ weapons: ['Battleaxe', 'Flail', 'Glaive', 'Greataxe', 'Greatsword', 'Halberd', 'Lance', 'Longsword', 'Maul', 'Morningstar', 'Pike', 'Rapier', 'Scimitar', 'Shortsword', 'Trident', 'Warpick','Warhammer','Whip'] }" class="input-group w3-margin-top">
+            <select class="select" name="martialRanged" id="martialMelee" multiple>
+              <option value="" disabled selected>Martial Melee</option>
+              <template x-for="weapon in weapons">
+                <option x-bind:value="weapon" x-text="weapon"></option> 
+              </template>
+            </select>
+          </div>
         </div>
       </div>
     </div>
