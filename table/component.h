@@ -17,29 +17,20 @@ along with this program.
 
 */
 
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef COMPONENT_H
+#define COMPONENT_H
 
 typedef enum {
-    EVENT_TYPE_ADD_COND,
-    EVENT_TYPE_REMOVE_COND,
-    EVENT_TYPE_COUNT
-} event_type_t;
+    CONDITION_COMPONENT,
+    TOKEN_COMPONENT,
+    COMPONENT_COUNT
+} component_types_t;
 
 typedef struct {
-    event_type_t type;
-    void *data;
-} event_t;
-
-typedef void (*event_handler_t)(event_t *event);
-
-typedef struct {
-    event_handler_t handlers[EVENT_TYPE_COUNT];
-} event_system_t;
-
-extern event_system_t g_combat_manager;
-
-void add_event_handler(event_type_t type, event_handler_t handler);
-void dispatch_event(event_t *event);
+    void (* init) ();
+    void (* update) ();
+    void (* draw) ();
+    void (* remove) ();
+} component_t;
 
 #endif
