@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2024 Sariah Echols
+Copyright (C) 2024 Lance Borden, Sariah Echols
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,20 +17,29 @@ along with this program.
 
 */
 
-#include "raylib.h"
-#include "token.h"
+#include "component.h"
 
-#ifndef STATUS_H
-#define STATUS_H
+#ifndef ENTDEFS_H
+#define ENTDEFS_H
 
 typedef struct {
-    token_t *token; 
-    Texture2D status;
-} status_token;
+    component_t components[COMPONENT_COUNT];
+} entity_t;
 
-status_token base_token(token_t *base_token);
-void update_status(status_token*layered_token, Camera2D camera);
-void draw_status(status_token *layered_token);
-void remove_status(status_token *layered_token);
+typedef struct {
+    entity_t self;
+} player_t;
+
+typedef struct {
+    entity_t self;
+} npc_t;
+
+typedef struct {
+    entity_t self;
+} spell_t;
+
+typedef struct {
+    entity_t self;
+} environmental_t;
 
 #endif

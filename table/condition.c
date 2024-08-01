@@ -15,15 +15,13 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.
 
-1000000000000000
 */
 
-#include "status.h"
-#include "event.h"
-#include "token.h"
+/*#include "component.h"
 #include "raylib.h"
-#include "stdio.h"
 #include <stdint.h>
+
+#define CONDITIONS_COUNT 16
 
 #define COND_BLIND 0x8000
 #define COND_CHARM 0x4000
@@ -42,9 +40,46 @@ along with this program.
 #define COND_FATIG 0x0002
 #define COND_INVIS 0x0001
 
-// update(COND_BLIND | COND_CHARM)
-event_handler_t handle;
-event_type_t type;
+Texture2D condition_texs[CONDITIONS_COUNT];
+
+static void load_condition_texs() {
+    for (int i = 0; i < CONDITIONS_COUNT; ++i) {
+        // use an fprintf to a string to append the number to condition_
+        // fprintf(&str, "condition_%d.png", i);
+        Image cond_image = LoadImage("resources/player_border.png");
+        condition_texs[i] = LoadTextureFromImage(cond_image);
+        UnloadImage(cond_image);
+    }
+}
+
+static void delete_condition_texs() {
+    for (int i = 0; i < CONDITIONS_COUNT; ++i) {
+        UnloadTexture(condition_texs[i]);
+    }
+}
+
+static void init() {
+    load_condition_texs();
+}
+
+static void update() {
+
+}
+
+static void draw() {
+
+}
+
+static void remove() {
+    delete_condition_texs();
+}
+
+condition_t new_condition() {
+    condition_t condition;
+    condition.conds = 0;
+    condition.init = init;
+    return 0;
+}
 
 void add_cond(uint16_t conditions, status_token*layered_token, Camera2D camera) {
 if (COND_BLIND | COND_CHARM){
@@ -58,14 +93,4 @@ for (int i = 0; i < 16; ++i) {
         // handle the condition at i
     }
 }
-}
-
-void remove_cond(uint16_t conditions, event_type_t type, event_handler_t handle, status_token*layered_token, Camera2D camera) {
-
-}
-
-
-
-void draw_status(status_token *layered_token);
-
-void remove_status(status_token *layered_token);
+}*/
