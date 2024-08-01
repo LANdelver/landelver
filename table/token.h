@@ -18,7 +18,6 @@ along with this program.
 */
 
 #include "raylib.h"
-#include "status.h"
 
 #ifndef TOKEN_H
 #define TOKEN_H
@@ -28,7 +27,6 @@ typedef struct {
   Vector2 position;
   const char *label;
   bool is_player;
-  condition_t cond;
 } token_t;
 
 token_t new_player_token(const char *filename, const char *label);

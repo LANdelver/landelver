@@ -17,29 +17,13 @@ along with this program.
 
 */
 
-#include "component.h"
+#ifndef LUA_RUNTIME_H
+#define LUA_RUNTIME_H
 
-#ifndef ENTDEFS_H
-#define ENTDEFS_H
+#include <lua.h>
 
-typedef struct {
-    component_t components[COMPONENT_COUNT];
-} entity_t;
-
-typedef struct {
-    entity_t self;
-} player_t;
-
-typedef struct {
-    entity_t self;
-} npc_t;
-
-typedef struct {
-    entity_t self;
-} spell_t;
-
-typedef struct {
-    entity_t self;
-} environmental_t;
+void lua_init(lua_State *L);
+void lua_update(lua_State *L);
+void lua_draw(lua_State *L);
 
 #endif
