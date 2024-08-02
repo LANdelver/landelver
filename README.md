@@ -4,7 +4,8 @@ LANdelver is a virtual tabletop application that hopes to bring the best parts o
 
 ### CMake
 
-- Extract the zip of this project
+- Install python version 3.12 and its dev libs
+- Install lua and its dev libs
 - Type the following command:
 
 ```sh
