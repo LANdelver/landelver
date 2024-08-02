@@ -16,14 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program.
 
 */
-
-#ifndef LUA_RUNTIME_H
-#define LUA_RUNTIME_H
-
 #include <lua.h>
 
-void lua_set_path(lua_State *L);
-void lua_load_script(lua_State *L, const char *script);
-void lua_call_function(lua_State *L, const char *function);
+#ifndef LUA_API_H
+#define LUA_API_H
+
+void register_lua_api(lua_State *L);
 
 #endif

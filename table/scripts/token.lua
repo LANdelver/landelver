@@ -1,5 +1,6 @@
 local Entity = require("entity")
 local common = require("common")
+local landelver = require("landelver_api")
 
 -- token entity prefab
 local Token = setmetatable({}, { __index = Entity})
@@ -20,7 +21,9 @@ function Token:update()
 end
 
 function Token:draw()
-    print("token is drawing")
+    local x = self:getComponent("pos").x
+    local y = self:getComponent("pos").y
+    landelver.draw_text(self:getComponent("label"), x, y)
 end
 
 function Token:free()

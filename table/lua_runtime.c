@@ -35,19 +35,21 @@ void lua_set_path(lua_State *L) {
     lua_pop(L, 1); 
 }
 
-
-void lua_call_function(lua_State *L, const char *function) {
-    if (luaL_dofile(L, "./scripts/world.lua") == LUA_OK) {
-        lua_getglobal(L, function); // get the function on the stack
-        if (lua_isfunction(L, -1)) {     
-
-            lua_pcall(L, 0, 0, 0); // now call the function
-        
-        } else { 
-            printf("[C] Error: didn't find a function on top of Lua stack\n");
-        }
-    } else {
+void lua_load_script(lua_State *L, const char *script) {
+    if (luaL_dofile(L, script) != LUA_OK) {
         printf("[C] Error reading script\n");
         luaL_error(L, "Error: %s\n", lua_tostring(L, -1));
+    }
+
+}
+
+void lua_call_function(lua_State *L, const char *function) {
+    lua_getglobal(L, function); // get the function on the stack
+    if (lua_isfunction(L, -1)) {     
+
+        lua_pcall(L, 0, 0, 0); // now call the function
+    
+    } else { 
+        printf("[C] Error: didn't find a function on top of Lua stack\n");
     }
 }
