@@ -19,7 +19,6 @@ along with this program.
 
 #include "token.h"
 #include "raylib.h"
-#include "stdio.h"
 
 #define TOKEN_SIZE 128
 
@@ -107,13 +106,6 @@ void update_token(token_t *token, Camera2D camera) {
     token->position.y =
         (float)((int)(token->position.y / TOKEN_SIZE) * TOKEN_SIZE);
   }
-
-  // Debug logs
-  char debug_log[64];
-  sprintf(debug_log, "Mouse: %f, %f", mouse_pos.x, mouse_pos.y);
-  DrawText(debug_log, 20, 20, 20, DARKGRAY);
-  sprintf(debug_log, "Token: %f, %f", token->position.x, token->position.y);
-  DrawText(debug_log, 20, 40, 20, DARKGRAY);
 }
 
 /*
@@ -127,10 +119,6 @@ frame
 */
 void draw_token(token_t *token) {
   DrawTextureV(token->image, token->position, WHITE);
-
-  const int label_width = MeasureText(token->label, 20);
-  DrawText(token->label, token->position.x + (TOKEN_SIZE - label_width) / 2.0f,
-           token->position.y + TOKEN_SIZE + 10, 20, DARKGRAY);
 }
 
 /*

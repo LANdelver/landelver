@@ -23,7 +23,7 @@ end
 
 function init()
     -- add any entities that exist at start
-    add_entity(Token:instantiate(World.count, "test.png", "test"))
+    add_entity(Token:instantiate(World.count, "test.png", "this is from lua"))
 end
 
 function update()

@@ -18,6 +18,7 @@ along with this program.
 */
 
 #include "lua_runtime.h"
+#include "lua_api.h"
 #include "raylib.h"
 
 #include "raymath.h"
@@ -40,7 +41,9 @@ int main() {
   //----------------------------------------------------------------------------------
   lua_State* L = luaL_newstate();
   luaL_openlibs(L);
-  lua_set_path(L); 
+  lua_set_path(L);
+  register_lua_api(L);
+  lua_load_script(L,"./scripts/world.lua"); 
   lua_call_function(L, "init");
 
   // Initialization
