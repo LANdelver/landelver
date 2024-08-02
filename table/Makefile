@@ -189,7 +189,8 @@ PROJECT_SOURCE_FILES ?= \
 	token.c \
     event.c \
     server.c \
-    lua_runtime.c
+    lua_runtime.c \
+    lua_api.c
 # Define all object files from source files
 OBJS = $(patsubst %.c, %.o, $(PROJECT_SOURCE_FILES))
 
