@@ -17,12 +17,17 @@ along with this program.
 
 */
 
+#include "lua_runtime.h"
 #include "raylib.h"
 
 #include "raymath.h"
 #include "rlgl.h"
 #include "server.h"
 #include "token.h"
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -31,7 +36,10 @@ int main() {
   // Start python server thread
   //----------------------------------------------------------------------------------
   start_websocket_server();
-
+  // Create lua state
+  //----------------------------------------------------------------------------------
+  lua_State* L = luaL_newstate();
+  luaL_openlibs(L);
   // Initialization
   //--------------------------------------------------------------------------------------
   const int screenWidth = 1920;
@@ -48,6 +56,8 @@ int main() {
       new_player_token("resources/player_border.png", "demo_token");
 
   SetTargetFPS(60); // Set our game to run at 60 frames-per-second
+  
+  lua_init(L);
   //--------------------------------------------------------------------------------------
 
   // Main game loop
@@ -56,6 +66,7 @@ int main() {
     // Update
     //----------------------------------------------------------------------------------
 
+    lua_update(L);
     update_token(&demo_token, camera);
 
     // Translate based on mouse right click
@@ -102,6 +113,7 @@ int main() {
     DrawGrid(100, 128);
     rlPopMatrix();
 
+    lua_draw(L);
     draw_token(&demo_token);
 
     EndMode2D();
@@ -113,6 +125,7 @@ int main() {
   // De-Initialization
   //--------------------------------------------------------------------------------------
   CloseWindow(); // Close window and OpenGL context
+  lua_close(L);
   //--------------------------------------------------------------------------------------
   return 0;
 }
