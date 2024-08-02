@@ -17,12 +17,13 @@ along with this program.
 
 */
 
-#ifndef LUA_RUNTIME_H
-#define LUA_RUNTIME_H
 
-#include <lua.h>
+// C functions
+//--------------------------------------------------------------
 
-void lua_set_path(lua_State *L);
-void lua_call_function(lua_State *L, const char *function);
+static void draw_image(const char* path) {
 
-#endif
+}
+
+// Lua wrappers
+//--------------------------------------------------------------
