@@ -40,6 +40,9 @@ int main() {
   //----------------------------------------------------------------------------------
   lua_State* L = luaL_newstate();
   luaL_openlibs(L);
+  lua_set_path(L); 
+  lua_call_function(L, "init");
+
   // Initialization
   //--------------------------------------------------------------------------------------
   const int screenWidth = 1920;
@@ -56,8 +59,6 @@ int main() {
       new_player_token("resources/player_border.png", "demo_token");
 
   SetTargetFPS(60); // Set our game to run at 60 frames-per-second
-  
-  lua_init(L);
   //--------------------------------------------------------------------------------------
 
   // Main game loop
@@ -66,7 +67,7 @@ int main() {
     // Update
     //----------------------------------------------------------------------------------
 
-    lua_update(L);
+    lua_call_function(L, "update");
     update_token(&demo_token, camera);
 
     // Translate based on mouse right click
@@ -113,7 +114,7 @@ int main() {
     DrawGrid(100, 128);
     rlPopMatrix();
 
-    lua_draw(L);
+    lua_call_function(L, "draw");
     draw_token(&demo_token);
 
     EndMode2D();

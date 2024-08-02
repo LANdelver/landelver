@@ -1,8 +1,7 @@
 local Entity = require("entity")
 local common = require("common")
 
--- token is a subclass of entity
--- but functions as a prefab
+-- token entity prefab
 local Token = setmetatable({}, { __index = Entity})
 Token.__index = Token
 
