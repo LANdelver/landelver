@@ -6,28 +6,26 @@ local landelver = require("landelver_api")
 local Token = setmetatable({}, { __index = Entity})
 Token.__index = Token
 
-function Token:instantiate(id, icon, label)
+local pos = common.pos(0, 0)
+local image = {}
+
+function Token:instantiate(id)
     local instance = Entity:new(id)
-    local pos = common.pos(0, 0)
-    instance:addComponent("pos", pos)
-    instance:addComponent("icon", icon)
-    instance:addComponent("label", label)
+    image = landelver.load_image("resources/monster_border.png")
     setmetatable(instance, Token)
     return instance
 end
 
-function Token:update()
-    print("token is updating")
-end
-
 function Token:draw()
-    local x = self:getComponent("pos").x
-    local y = self:getComponent("pos").y
-    landelver.draw_text(self:getComponent("label"), x, y)
+    local x = pos.x
+    local y = pos.y
+    landelver.draw_text("im crying rn", x, y)
+    image:draw(x, y)
 end
 
-function Token:free()
+function Token:destroy()
     print("Token is freeing assets")
+    image:unload()
 end
 
 return Token

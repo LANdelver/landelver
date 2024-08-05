@@ -21,19 +21,27 @@ function remove_entity(entity)
     end
 end
 
-function init()
-    -- add any entities that exist at start
-    add_entity(Token:instantiate(World.count, "test.png", "this is from lua"))
+function remove_entity_by_id(id)
+    for i, e in ipairs(World.entities) do
+        if e.id == id then
+            table.remove(World.entities, i)
+        end
+    end
 end
 
-function update()
-    for _, e in ipairs(World.entities) do
-        e:update()
-    end
+function init()
+    -- add any entities that exist at start
+    add_entity(Token:instantiate(World.count))
 end
 
 function draw()
     for _, e in ipairs(World.entities) do
         e:draw()
+    end
+end
+
+function destroy()
+    for _, e in ipairs(World.entities) do
+        e:destroy()
     end
 end

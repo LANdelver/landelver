@@ -44,7 +44,6 @@ int main() {
   lua_set_path(L);
   register_lua_api(L);
   lua_load_script(L,"./scripts/world.lua"); 
-  lua_call_function(L, "init");
 
   // Initialization
   //--------------------------------------------------------------------------------------
@@ -57,9 +56,8 @@ int main() {
 
   Camera2D camera = {0};
   camera.zoom = 1.0f;
-
-  token_t demo_token =
-      new_player_token("resources/player_border.png", "demo_token");
+  
+  lua_call_function(L, "init");
 
   SetTargetFPS(60); // Set our game to run at 60 frames-per-second
   //--------------------------------------------------------------------------------------
@@ -70,8 +68,6 @@ int main() {
     // Update
     //----------------------------------------------------------------------------------
 
-    lua_call_function(L, "update");
-    update_token(&demo_token, camera);
 
     // Translate based on mouse right click
     if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
@@ -118,7 +114,6 @@ int main() {
     rlPopMatrix();
 
     lua_call_function(L, "draw");
-    draw_token(&demo_token);
 
     EndMode2D();
 
@@ -129,6 +124,7 @@ int main() {
   // De-Initialization
   //--------------------------------------------------------------------------------------
   CloseWindow(); // Close window and OpenGL context
+  lua_call_function(L, "destroy");
   lua_close(L);
   //--------------------------------------------------------------------------------------
   return 0;
