@@ -18,6 +18,8 @@ along with this program.
 """
 
 import asyncio
+import base64
+import os
 import websockets
 import socket
 import json
@@ -42,6 +44,38 @@ async def handle_message(websocket, message):
     if json_data['type'] == "requestChars":
         packet = '{"type":"requestChars", "chars":["boblin", "clifford"]}'
         await websocket.send(packet)
+
+    elif json_data['type'] == "sendImage":
+        header = json_data['header']
+        raw_data = json_data['raw']
+        player_name = json_data['playerName']  # Extract the player's name
+        file_path = save_image(header, raw_data, player_name)
+        print(f"Image saved to: {file_path}")
+
+
+# Function to save image data
+def save_image(header, raw_data, player_name):
+    # Create the uploads directory if it doesn't exist
+    upload_dir = "../table/resources/players"
+    if not os.path.exists(upload_dir):
+        os.makedirs(upload_dir)
+
+    # Extract the image type from the header (e.g., 'png')
+    file_extension = header.split('/')[1].split(';')[0]
+
+    # Generate the file name using the player's name
+    file_name = f"{player_name}.{file_extension}"
+    file_path = os.path.join(upload_dir, file_name)
+
+    # Decode the base64 image data
+    image_data = base64.b64decode(raw_data)
+
+    # Write the image data to the file
+    with open(file_path, "wb") as image_file:
+        image_file.write(image_data)
+
+    return file_path
+
 
 # Define a callback function to handle incoming WebSocket messages
 async def handle_websocket(websocket):
