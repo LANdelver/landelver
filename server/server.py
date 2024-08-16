@@ -45,13 +45,17 @@ async def handle_message(websocket, message):
         packet = '{"type":"requestChars", "chars":["boblin", "clifford"]}'
         await websocket.send(packet)
 
-    elif json_data['type'] == "sendImage":
-        header = json_data['header']
-        raw_data = json_data['raw']
-        player_name = json_data['playerName']  # Extract the player's name
+    elif json_data['type'] == "sendCharacter":
+        header = json_data['image']['header']
+        raw_data = json_data['image']['raw']
+        player_name = json_data['character']['name']  # Extract the player's name
         file_path = save_image(header, raw_data, player_name)
+        save_character_json(json_data['character'], player_name)
         print(f"Image saved to: {file_path}")
 
+def save_character_json(data, player_name):
+    with open(f'../table/resources/players/{player_name}.json', 'w') as f:
+        json.dump(data, f)
 
 # Function to save image data
 def save_image(header, raw_data, player_name):
