@@ -123,7 +123,7 @@ endif
 # Define include paths for required headers: INCLUDE_PATHS
 # NOTE: Some external/extras libraries could be required (stb, physac, easings...)
 #------------------------------------------------------------------------------------------------
-INCLUDE_PATHS = -I. -I$(RAYLIB_PATH)/src -I$(RAYLIB_PATH)/src/external -I$(RAYLIB_PATH)/src/extras -I/user/include -I/usr/include/python3.12
+INCLUDE_PATHS = -I. -I$(RAYLIB_PATH)/src -I$(RAYLIB_PATH)/src/external -I$(RAYLIB_PATH)/src/extras -I/user/include -I/usr/include/lua5.4 -I/usr/include/python3.12
 
 # Define additional directories containing required header files
 ifeq ($(PLATFORM),PLATFORM_DESKTOP)
@@ -189,6 +189,8 @@ PROJECT_SOURCE_FILES ?= \
 	token.c \
     event.c \
     server.c \
+    cJSON.c \
+    vector.c \
     lua_runtime.c \
     lua_api.c
 # Define all object files from source files

@@ -21,6 +21,8 @@ along with this program.
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
+#include <stdlib.h>
+#include "cJSON.h"
 
 // C functions
 //--------------------------------------------------------------
@@ -40,7 +42,53 @@ static void draw_image(Texture2D *tex, const int x, const int y) {
 }
 
 static void unload_image(Texture2D *tex) {
-    UnloadTexture(*tex);       
+    UnloadTexture(*tex);
+}
+
+// character json handling
+
+static char* json_file_to_string(const char* filename) {
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        perror("File opening failed");
+        return NULL;
+    }
+
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char *content = malloc(length + 1);
+    if (content) {
+        fread(content, 1, length, file);
+        content[length] = '\0';  // Null-terminate the string
+    }
+
+    fclose(file);
+    return content;
+}
+
+static void get_character_field(const char* field, const char* filename) {
+    char *content = json_file_to_string(filename);
+    if (content == NULL) {
+        return;
+    }
+
+    cJSON *json = cJSON_Parse(content);
+    if (json == NULL) {
+        printf("Error parsing JSON\n");
+        free(content);
+        return;
+    }
+
+    // get the field for return
+    cJSON *json_field = cJSON_GetObjectItemCaseSensitive(json, field);
+    if (cJSON_IsString(json_field) && (json_field->valuestring != NULL)) {
+        printf("Name: %s\n", json_field->valuestring);
+    }
+
+    cJSON_Delete(json);
+    free(content);
 }
 
 // Lua wrappers
@@ -72,7 +120,7 @@ static int l_draw_image(lua_State *L) {
     int x = luaL_checkinteger(L, 2);
     int y = luaL_checkinteger(L, 3);
     draw_image(tex, x, y);
-    return 0; 
+    return 0;
 }
 
 static int l_unload_image(lua_State *L) {
@@ -94,7 +142,7 @@ static int l_unload_image_gc(lua_State *L) {
 
 void register_lua_api(lua_State *L) {
     lua_register(L, "draw_text", l_draw_text);
-    
+
     luaL_newmetatable(L, "Texture2D");
     lua_pushcfunction(L, l_draw_image);
     lua_setfield(L, -2, "draw");
@@ -103,7 +151,7 @@ void register_lua_api(lua_State *L) {
     lua_pushcfunction(L, l_unload_image_gc);
     lua_setfield(L, -2, "__gc");
     lua_pushvalue(L, -1);  // Duplicate the metatable
-    lua_setfield(L, -2, "__index");    
+    lua_setfield(L, -2, "__index");
     lua_pop(L, 1);
 
     lua_register(L, "load_image", l_load_image);
