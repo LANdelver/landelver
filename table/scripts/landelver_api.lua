@@ -9,4 +9,9 @@ function api.load_image(filename)
     return tex
 end
 
+function api.get_character(filename)
+    local character = get_character(filename)
+    return character
+end
+
 return api

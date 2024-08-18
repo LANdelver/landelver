@@ -23,6 +23,7 @@ along with this program.
 #include <lauxlib.h>
 #include <stdlib.h>
 #include "cJSON.h"
+#include "character.h"
 
 // C functions
 //--------------------------------------------------------------
@@ -68,27 +69,100 @@ static char* json_file_to_string(const char* filename) {
     return content;
 }
 
-static void get_character_field(const char* field, const char* filename) {
+static character_t get_character_from_json(const char* filename) {
     char *content = json_file_to_string(filename);
+    character_t character;
     if (content == NULL) {
-        return;
+        return character;
     }
 
     cJSON *json = cJSON_Parse(content);
     if (json == NULL) {
         printf("Error parsing JSON\n");
         free(content);
-        return;
+        return character;
     }
 
-    // get the field for return
-    cJSON *json_field = cJSON_GetObjectItemCaseSensitive(json, field);
-    if (cJSON_IsString(json_field) && (json_field->valuestring != NULL)) {
-        printf("Name: %s\n", json_field->valuestring);
+    // read the data from the file into json field structs
+    cJSON *name = cJSON_GetObjectItemCaseSensitive(json, "name");
+    cJSON *race = cJSON_GetObjectItemCaseSensitive(json, "race");
+    cJSON *classname = cJSON_GetObjectItemCaseSensitive(json, "class");
+    cJSON *level = cJSON_GetObjectItemCaseSensitive(json, "level");
+
+    cJSON *ability_scores = cJSON_GetObjectItemCaseSensitive(json, "ability_scores");
+    cJSON *str_score = cJSON_GetObjectItemCaseSensitive(ability_scores, "strength");
+    cJSON *dex_score = cJSON_GetObjectItemCaseSensitive(ability_scores, "dexterity");
+    cJSON *con_score = cJSON_GetObjectItemCaseSensitive(ability_scores, "constitution");
+    cJSON *int_score = cJSON_GetObjectItemCaseSensitive(ability_scores, "intelligence");
+    cJSON *wis_score = cJSON_GetObjectItemCaseSensitive(ability_scores, "wisdom");
+    cJSON *cha_score = cJSON_GetObjectItemCaseSensitive(ability_scores, "charisma");
+
+    cJSON *saving_throws = cJSON_GetObjectItemCaseSensitive(json, "saving_throws");
+    cJSON *str_save = cJSON_GetObjectItemCaseSensitive(saving_throws, "strength");
+    cJSON *dex_save = cJSON_GetObjectItemCaseSensitive(saving_throws, "dexterity");
+    cJSON *con_save = cJSON_GetObjectItemCaseSensitive(saving_throws, "constitution");
+    cJSON *int_save = cJSON_GetObjectItemCaseSensitive(saving_throws, "intelligence");
+    cJSON *wis_save = cJSON_GetObjectItemCaseSensitive(saving_throws, "wisdom");
+    cJSON *cha_save = cJSON_GetObjectItemCaseSensitive(saving_throws, "charisma");
+
+    cJSON *stats = cJSON_GetObjectItemCaseSensitive(json, "stats");
+    cJSON *speed = cJSON_GetObjectItemCaseSensitive(stats, "speed");
+    cJSON *ac = cJSON_GetObjectItemCaseSensitive(stats, "ac");
+    cJSON *hp = cJSON_GetObjectItemCaseSensitive(stats, "hp");
+
+    cJSON *weapons = cJSON_GetObjectItemCaseSensitive(json, "weapons");
+    cJSON *spells = cJSON_GetObjectItemCaseSensitive(json, "spells");
+    cJSON *proficiencies = cJSON_GetObjectItemCaseSensitive(json, "proficiencies");
+
+    // add the fields into the struct
+    character.name = name->valuestring;
+    character.race = race->valuestring;
+    character.classname = classname->valuestring;
+    character.level = level->valueint;
+    
+    character.ability_scores.strength = str_score->valueint;
+    character.ability_scores.dexterity = dex_score->valueint;
+    character.ability_scores.constitution = con_score->valueint;
+    character.ability_scores.intelligence = int_score->valueint;
+    character.ability_scores.wisdom = wis_score->valueint;
+    character.ability_scores.charisma = cha_score->valueint;
+
+    character.saving_throws.strength = str_save->valueint;
+    character.saving_throws.dexterity = dex_save->valueint;
+    character.saving_throws.constitution = con_save->valueint;
+    character.saving_throws.intelligence = int_save->valueint;
+    character.saving_throws.wisdom = wis_save->valueint;
+    character.saving_throws.charisma = cha_save->valueint;
+
+    character.speed = speed->valueint;
+    character.ac = ac->valueint;
+    character.hp = hp->valueint;
+
+    character.weapons = new_vector();
+    character.spells = new_vector();
+    character.proficiencies = new_vector();
+
+    int weapon_count = cJSON_GetArraySize(weapons);
+    for (int i = 0; i < weapon_count; i++) {
+        cJSON *weapon = cJSON_GetArrayItem(weapons, i);
+        push_back(&character.weapons, weapon->valuestring);
+    }
+    
+    int spell_count = cJSON_GetArraySize(spells);
+    for (int i = 0; i < spell_count; i++) {
+        cJSON *spell = cJSON_GetArrayItem(spells, i);
+        push_back(&character.spells, spell->valuestring);
+    }
+    
+    int proficiencies_count = cJSON_GetArraySize(proficiencies);
+    for (int i = 0; i < proficiencies_count; i++) {
+        cJSON *proficiency = cJSON_GetArrayItem(proficiencies, i);
+        push_back(&character.proficiencies, proficiency->valuestring);
     }
 
     cJSON_Delete(json);
     free(content);
+    return character;
 }
 
 // Lua wrappers
@@ -137,6 +211,138 @@ static int l_unload_image_gc(lua_State *L) {
     return 0;
 }
 
+// character json handling
+
+static int l_get_character_from_json(lua_State *L) {
+    const char* filename = luaL_checkstring(L, 1);
+    character_t character = get_character_from_json(filename);
+
+    lua_newtable(L);
+
+    lua_pushstring(L, "name");
+    lua_pushstring(L, character.name);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "race");
+    lua_pushstring(L, character.race);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "class");
+    lua_pushstring(L, character.classname);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "level");
+    lua_pushnumber(L, character.level);
+    lua_settable(L, -3);
+
+    // nested tables for stats and arrays
+    lua_pushstring(L, "ability_scores");
+    lua_newtable(L);
+
+    lua_pushstring(L, "strength");
+    lua_pushnumber(L, character.ability_scores.strength);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "dexterity");
+    lua_pushnumber(L, character.ability_scores.dexterity);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "constitution");
+    lua_pushnumber(L, character.ability_scores.constitution);
+    lua_settable(L, -3);
+    
+    lua_pushstring(L, "intelligence");
+    lua_pushnumber(L, character.ability_scores.intelligence);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "wisdom");
+    lua_pushnumber(L, character.ability_scores.wisdom);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "charisma");
+    lua_pushnumber(L, character.ability_scores.charisma);
+    lua_settable(L, -3);
+
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "saving_throws");
+    lua_newtable(L);
+
+    lua_pushstring(L, "strength");
+    lua_pushnumber(L, character.saving_throws.strength);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "dexterity");
+    lua_pushnumber(L, character.saving_throws.dexterity);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "constitution");
+    lua_pushnumber(L, character.saving_throws.constitution);
+    lua_settable(L, -3);
+    
+    lua_pushstring(L, "intelligence");
+    lua_pushnumber(L, character.saving_throws.intelligence);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "wisdom");
+    lua_pushnumber(L, character.saving_throws.wisdom);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "charisma");
+    lua_pushnumber(L, character.saving_throws.charisma);
+    lua_settable(L, -3);
+
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "stats");
+    lua_newtable(L);
+
+    lua_pushstring(L, "speed");
+    lua_pushnumber(L, character.speed);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "ac");
+    lua_pushnumber(L, character.ac);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "hp");
+    lua_pushnumber(L, character.hp);
+    lua_settable(L, -3);
+
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "weapons");
+    lua_newtable(L);
+    
+    for (int i = 0; i < character.weapons.size; i++) {
+        lua_pushnumber(L, i);
+        lua_pushstring(L, get_item(&character.weapons, i));
+        lua_settable(L, -3);
+    }
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "spells");
+    lua_newtable(L);
+    
+    for (int i = 0; i < character.spells.size; i++) {
+        lua_pushnumber(L, i);
+        lua_pushstring(L, get_item(&character.spells, i));
+        lua_settable(L, -3);
+    }
+    lua_settable(L, -3);
+    
+    lua_pushstring(L, "proficiencies");
+    lua_newtable(L);
+    
+    for (int i = 0; i < character.proficiencies.size; i++) {
+        lua_pushnumber(L, i);
+        lua_pushstring(L, get_item(&character.proficiencies, i));
+        lua_settable(L, -3);
+    }
+    lua_settable(L, -3);
+    return 1;
+}
+
 // Register Lua functions
 //--------------------------------------------------------------
 
@@ -155,4 +361,5 @@ void register_lua_api(lua_State *L) {
     lua_pop(L, 1);
 
     lua_register(L, "load_image", l_load_image);
+    lua_register(L, "get_character", l_get_character_from_json);
 }

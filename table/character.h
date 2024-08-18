@@ -36,11 +36,9 @@ typedef struct {
     int level;
     ability_scores_t ability_scores;
     ability_scores_t saving_throws;
-    int profifiency;
-    int initiative;
-    int walk_speed;
-    int armor_class;
-    int hit_points;
+    int speed;
+    int ac;
+    int hp;
     vector_t weapons;
     vector_t spells;
     vector_t proficiencies;
