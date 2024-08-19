@@ -222,7 +222,6 @@ static int l_get_character_from_json(lua_State *L) {
     lua_newtable(L);
 
     lua_pushstring(L, "name");
-    printf("%s\n", character.name); // Should now print correctly
     lua_pushstring(L, character.name ? character.name : "Unknown");
     lua_settable(L, -3);
 
