@@ -1,6 +1,8 @@
 # LANdelver
 
-LANdelver is a virtual tabletop application that hopes to bring the best parts of online D&D and video games to the in person experience. This application is a websocket enabled tool for screen tables or for displaying combat environments on a television or computer monitor. Players and dungeon masters will engage with the tool on their personal devices through a website allowing for character creation and combat controls. Another critical feature of LANdelver is a unique Lua scripting API that allows for the automation of enemies and spells into the battleground. This will help make combat less time exhaustive, enable large scale battles, and offer fun visual feedback to the players to keep up engagement. All of this is run locally using your Local Area Network (LAN) which means only the dungeon master has to keep all of the data + no data will be stored by a third party so you own all of your information and content!
+LANdelver is a virtual tabletop application that hopes to bring the best parts of online D&D and video games to the in person experience. This application is a websocket enabled tool for screen tables or for displaying combat environments on a television or computer monitor. Players and dungeon masters will engage with the tool on their personal devices through a website allowing for character creation and combat controls. 
+
+Another critical feature of LANdelver is a unique Lua scripting API that allows for the automation of enemies and spells into the battleground. This will help make combat less time exhaustive, enable large scale battles, and offer fun visual feedback to the players to keep up engagement. All of this is run locally using your Local Area Network (LAN) which means only the dungeon master has to keep all of the data + no data will be stored by a third party so you own all of your information and content!
 
 ### CMake
 
