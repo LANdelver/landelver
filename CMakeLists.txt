@@ -35,7 +35,6 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/table/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/table/scripts $<TARGET_FILE_DIR:${PROJECT_NAME}>/scripts
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/server $<TARGET_FILE_DIR:${PROJECT_NAME}>/server
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/web $<TARGET_FILE_DIR:${PROJECT_NAME}>/web
   DEPENDS ${PROJECT_NAME})
 
 # Link libraries
