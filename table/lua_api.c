@@ -117,9 +117,9 @@ static character_t get_character_from_json(const char* filename) {
     cJSON *proficiencies = cJSON_GetObjectItemCaseSensitive(json, "proficiencies");
 
     // Add the fields into the struct (copy strings)
-    character.name = name && cJSON_IsString(name) ? strdup(name->valuestring) : NULL;
-    character.race = race && cJSON_IsString(race) ? strdup(race->valuestring) : NULL;
-    character.classname = classname && cJSON_IsString(classname) ? strdup(classname->valuestring) : NULL;
+    character.name = name && cJSON_IsString(name) ? strdup(name->valuestring) : "";
+    character.race = race && cJSON_IsString(race) ? strdup(race->valuestring) : "";
+    character.classname = classname && cJSON_IsString(classname) ? strdup(classname->valuestring) : "";
     character.level = level ? level->valueint : 0;
     
     character.ability_scores.strength = str_score ? str_score->valueint : 0;
@@ -140,26 +140,29 @@ static character_t get_character_from_json(const char* filename) {
     character.ac = ac ? ac->valueint : 0;
     character.hp = hp ? hp->valueint : 0;
 
-    character.weapons = new_vector();
-    character.spells = new_vector();
-    character.proficiencies = new_vector();
+    character.weapons = vector_new();
+    character.spells = vector_new();
+    character.proficiencies = vector_new();
 
     int weapon_count = cJSON_GetArraySize(weapons);
     for (int i = 0; i < weapon_count; i++) {
         cJSON *weapon = cJSON_GetArrayItem(weapons, i);
-        push_back(&character.weapons, weapon->valuestring ? strdup(weapon->valuestring) : NULL);
+        vector_push_back(&character.weapons, 
+            weapon->valuestring ? strdup(weapon->valuestring) : "");
     }
     
     int spell_count = cJSON_GetArraySize(spells);
     for (int i = 0; i < spell_count; i++) {
         cJSON *spell = cJSON_GetArrayItem(spells, i);
-        push_back(&character.spells, spell->valuestring ? strdup(spell->valuestring) : NULL);
+        vector_push_back(&character.spells, 
+            spell->valuestring ? strdup(spell->valuestring) : "");
     }
     
     int proficiencies_count = cJSON_GetArraySize(proficiencies);
     for (int i = 0; i < proficiencies_count; i++) {
         cJSON *proficiency = cJSON_GetArrayItem(proficiencies, i);
-        push_back(&character.proficiencies, proficiency->valuestring ? strdup(proficiency->valuestring) : NULL);
+        vector_push_back(&character.proficiencies, 
+            proficiency->valuestring ? strdup(proficiency->valuestring) : "");
     }
 
     cJSON_Delete(json);
@@ -222,15 +225,15 @@ static int l_get_character_from_json(lua_State *L) {
     lua_newtable(L);
 
     lua_pushstring(L, "name");
-    lua_pushstring(L, character.name ? character.name : "Unknown");
+    lua_pushstring(L, character.name);
     lua_settable(L, -3);
 
     lua_pushstring(L, "race");
-    lua_pushstring(L, character.race ? character.race : "Unknown");
+    lua_pushstring(L, character.race);
     lua_settable(L, -3);
 
     lua_pushstring(L, "class");
-    lua_pushstring(L, character.classname ? character.classname : "Unknown");
+    lua_pushstring(L, character.classname);
     lua_settable(L, -3);
 
     lua_pushstring(L, "level");
@@ -318,7 +321,7 @@ static int l_get_character_from_json(lua_State *L) {
     
     for (int i = 0; i < character.weapons.size; i++) {
         lua_pushnumber(L, i);
-        lua_pushstring(L, get_item(&character.weapons, i) ? get_item(&character.weapons, i) : "Unknown");
+        lua_pushstring(L, vector_get_item(&character.weapons, i));
         lua_settable(L, -3);
     }
     lua_settable(L, -3);
@@ -328,7 +331,7 @@ static int l_get_character_from_json(lua_State *L) {
     
     for (int i = 0; i < character.spells.size; i++) {
         lua_pushnumber(L, i);
-        lua_pushstring(L, get_item(&character.spells, i) ? get_item(&character.spells, i) : "Unknown");
+        lua_pushstring(L, vector_get_item(&character.spells, i));
         lua_settable(L, -3);
     }
     lua_settable(L, -3);
@@ -338,10 +341,12 @@ static int l_get_character_from_json(lua_State *L) {
     
     for (int i = 0; i < character.proficiencies.size; i++) {
         lua_pushnumber(L, i);
-        lua_pushstring(L, get_item(&character.proficiencies, i) ? get_item(&character.proficiencies, i) : "Unknown");
+        lua_pushstring(L, vector_get_item(&character.proficiencies, i));
         lua_settable(L, -3);
     }
     lua_settable(L, -3);
+
+
 
     return 1;
 }

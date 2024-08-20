@@ -33,7 +33,7 @@ static void resize(vector_t *vector) {
 }
 
 // please create new inventories this way
-vector_t new_vector() {
+vector_t vector_new() {
     vector_t vector;
     vector.size = 0;
     vector.capacity = 5;
@@ -41,8 +41,7 @@ vector_t new_vector() {
     return vector;
 }
 
-//
-char *get_item(vector_t *vector, const int i) {
+char *vector_get_item(vector_t *vector, const int i) {
     if (i >= vector->size) {
         fprintf(stderr, "Error: index out of bounds on vector get_item");
         return NULL;
@@ -50,7 +49,7 @@ char *get_item(vector_t *vector, const int i) {
     return vector->items[i];
 }
 
-void set_item(vector_t *vector, const int i, char *item) {
+void vector_set_item(vector_t *vector, const int i, char *item) {
     if (i >= vector->size) {
         fprintf(stderr, "Error: index out of bounds on vector set_item");
         return;
@@ -58,7 +57,7 @@ void set_item(vector_t *vector, const int i, char *item) {
     vector->items[i] = item;
 }
 
-void push_back(vector_t *vector, char *item) {
+void vector_push_back(vector_t *vector, char *item) {
     if (vector->size == vector->capacity) {
         resize(vector);
     }
@@ -66,10 +65,14 @@ void push_back(vector_t *vector, char *item) {
     vector->size++;
 }
 
-char *pop_back(vector_t *vector) {
+char *vector_pop_back(vector_t *vector) {
     if (vector->size > 0) {
         // soft delete method is fine here
         vector->size--;
     }
     return vector->items[vector->size];
+}
+
+void vector_delete(vector_t *vector) {
+    free(vector->items);
 }

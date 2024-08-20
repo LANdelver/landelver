@@ -23,12 +23,14 @@ typedef struct {
     int capacity;
 } vector_t;
 
-vector_t new_vector();
+vector_t vector_new();
 
-char *get_item(vector_t *vector, const int i);
+char *vector_get_item(vector_t *vector, const int i);
 
-void set_item(vector_t *vector, const int i, char *item);
+void vector_set_item(vector_t *vector, const int i, char *item);
 
-void push_back(vector_t *vector, char *item);
+void vector_push_back(vector_t *vector, char *item);
 
-char *pop_back(vector_t *vector);
+char *vector_pop_back(vector_t *vector);
+
+void vector_delete(vector_t *vector);
