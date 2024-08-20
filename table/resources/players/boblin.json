@@ -1,0 +1,30 @@
+{
+    "name": "boblin",
+    "race": "goblin",
+    "class": "barbarian",
+    "level": 3,
+    "ability_scores": {
+        "strength": 12,
+        "dexterity": 10,
+        "constitution": 14,
+        "intelligence": 13,
+        "wisdom": 15,
+        "charisma": 8
+    },
+    "saving_throws": {
+        "strength": 3,
+        "dexterity": 3,
+        "constitution": 2,
+        "intelligence": 1,
+        "wisdom": 0,
+        "charisma": 5
+    },
+    "stats": {
+        "speed": 30,
+        "ac": 10,
+        "hp": 12
+    },
+    "weapons": [ "shortsword", "dagger" ],
+    "spells": [ "eldrich blast" ],
+    "proficiencies": ["stealth"]
+}
