@@ -39,6 +39,22 @@ def get_lan_ip():
         s.close()
     return ip
 
+def get_join_code(ip):
+    bytes = list(map(int, ip.split('.')))
+    ip_int = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3]
+
+    code = ''
+    while ip_int > 0:
+        remainder = ip_int % 26
+        code = chr(remainder + 97) + code
+        ip_int //= 26;
+    
+    while len(code) < 7:
+        code = 'a' + code
+
+    return code
+    
+
 async def handle_message(websocket, message):
     json_data = json.loads(message)
     if json_data['type'] == "requestChars":
@@ -95,7 +111,9 @@ async def handle_websocket(websocket):
 if __name__ == "__main__":
     # Start the WebSocket server
     lan_ip = get_lan_ip()
+    join_code = get_join_code(lan_ip)
     print(f"Starting websocket server on {lan_ip}:8765")
+    print(f"Join Code is: {join_code}")
     start_server = websockets.serve(handle_websocket, lan_ip, 8765)
 
     asyncio.get_event_loop().run_until_complete(start_server)
