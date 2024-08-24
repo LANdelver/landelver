@@ -70,13 +70,13 @@ async def handle_message(websocket, message):
         print(f"Image saved to: {file_path}")
 
 def save_character_json(data, player_name):
-    with open(f'../table/resources/players/{player_name}.json', 'w') as f:
+    with open(f'./resources/players/{player_name}.json', 'w') as f:
         json.dump(data, f)
 
 # Function to save image data
 def save_image(header, raw_data, player_name):
     # Create the uploads directory if it doesn't exist
-    upload_dir = "../table/resources/players"
+    upload_dir = "./resources/players"
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
 

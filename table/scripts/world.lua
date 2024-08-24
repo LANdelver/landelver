@@ -1,9 +1,9 @@
 -- include all prefabs needed
-local Token = require("token")
+local Character = require("character")
 
 -- is a global since C may need to read
 -- the entity table
-World = { count = 0, entities = {}}
+World = { count = 0, entities = {} }
 
 -- add and remove will also be used by the
 -- C code to add/remove from the World
@@ -31,7 +31,7 @@ end
 
 function init()
     -- add any entities that exist at start
-    add_entity(Token:instantiate(World.count))
+    add_entity(Character:instantiate(World.count))
 end
 
 function draw()
